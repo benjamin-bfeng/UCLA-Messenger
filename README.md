@@ -29,20 +29,42 @@
 
 To get a local copy up and running follow these simple example steps.
 
-### Prerequisites
-
 First, clone the repository to your local machine using
 
 ```zsh
 git clone https://github.com/benjamin-bfeng/BruinChat.git
 ```
 
-Installing Dependencies
+Frontend and backend are in the respective `client` and `server` folders,
+and each one is run separately.
 
+## Frontend
+
+Installing Dependencies
 ```zsh
+cd client
 npm install
 ```
 
+Run with
+```sh
+npm start
+```
+while in the `client` folder.
+
+## Backend
+
+Installing Dependencies
+```zsh
+cd server
+npm install
+```
+
+Run with
+```sh
+npm start
+```
+while in the `server` folder.
 ### Run
 
 ```sh
