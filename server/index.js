@@ -1,15 +1,28 @@
-// const express = require('express');
-// const app = express();
-// const mongoose = require('mongoose');
-const http = require('http');
-const port = 3001;
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
 
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.write('Hello World!');
-  res.end();
+require('dotenv').config();
+
+const app = express();
+const port = process.env.PORT || 3001;
+
+const usersRouter = require('./controllers/users');
+
+const mongoUrl = process.env.MONGODB_URI;
+
+mongoose.connect(mongoUrl, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
 });
 
-server.listen(port, () => {
+app.use(cors());
+app.use(express.json());
+
+app.use('/api/users', usersRouter);
+
+app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
