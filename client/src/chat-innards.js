@@ -7,10 +7,13 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import {CTX} from './Store';
 
+import './index.css';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -23,15 +26,22 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center'
     },
+    message:{
+        display: 'flex',
+        alignItems: 'center',
+        padding: '2px'
+    },
     topicsWindow:{
         width: '30%',
         height: '300px',
-        borderRight: '1px solid grey'
+        borderRight: '1px solid grey',
+        overflowY: 'auto'
     },
     chatWindow:{
         width: '70%',
         height: '300px',
-        padding: '20px'
+        padding: '20px',
+        overflowY: 'auto',
     },
     chatBox:{
         width: '85%'
@@ -75,9 +85,14 @@ const Chat = () => {
                     <div className={classes.chatWindow}>
                         {
                             allChats[activeTopic].map((chat,index) => (
-                                <div className={classes.flex} key={index}>
-                                    <Chip label={chat.from} />
-                                    <Typography variant={'body1'}>{chat.msg}</Typography>
+                                <div className={classes.message} key={index}>
+                                    <Tooltip title={chat.from} placement="left">
+                                        <Chip
+                                            variant={"outlined"}
+                                            avatar={<Avatar src="/static/images/avatar/1.jpg" />}
+                                            label={chat.msg}
+                                        />
+                                    </Tooltip>
                                 </div>
                             ))
                         }
