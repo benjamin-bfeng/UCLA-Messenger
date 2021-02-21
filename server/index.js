@@ -1,15 +1,21 @@
-// const express = require('express');
-// const app = express();
-// const mongoose = require('mongoose');
-const http = require('http');
-const port = 3001;
-
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.write('Hello World!');
-  res.end();
+var app = require('express')();
+var http = require('http').createServer(app);
+var io = require('socket.io')(http, {
+    cors: {
+        origin: "http://localhost:3000",
+        credentials: true
+    }
 });
 
-server.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+
+io.on('connection', function(socket){
+     console.log('a user connected');
+     socket.on('chat message', function(msg){
+         console.log('message: ' + JSON.stringify(msg));
+         io.emit('chat message', msg)
+     });
+});
+
+http.listen(3001, function(){
+  console.log('listening on *:3001');
 });
