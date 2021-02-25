@@ -6,6 +6,11 @@ usersRouter.get('/', async (request, response) => {
   response.json(users);
 });
 
+usersRouter.get('/:id', async (request, response) => {
+  const user = await User.findById(request.params.id);
+  response.json(user);
+});
+
 usersRouter.post('/', async (request, response) => {
   const body = request.body;
   const user = new User({
@@ -17,19 +22,12 @@ usersRouter.post('/', async (request, response) => {
 
   const savedUser = await user.save();
   response.json(savedUser);
-  // user
-  //   .save()
-  //   .then(savedUser => {
-  //     if (savedUser) {
-  //       response.json(savedUser);
-  //     } else {
-  //       response.status(404).end();
-  //     }
-  //   })
-  //   .catch(error => {
-  //     console.log(error);
-  //     response.status(400).send({ error: 'non unique username' });
-  //   });
+});
+
+usersRouter.delete('/:id', async (request, response) => {
+  const user = await User.findById(request.params.id);
+  await user.remove();
+  response.status(204).end();
 });
 
 module.exports = usersRouter;
