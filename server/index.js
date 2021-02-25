@@ -1,13 +1,13 @@
+require('dotenv').config();
 const express = require('express');
+require('express-async-errors');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
-require('dotenv').config();
-
 const app = express();
 const port = process.env.PORT || 3001;
 
 const usersRouter = require('./controllers/users');
+const middleware = require('./utils/middleware');
 
 const mongoUrl = process.env.MONGODB_URI;
 
@@ -22,6 +22,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/users', usersRouter);
+
+app.use(middleware.errorHandler);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

@@ -9,6 +9,7 @@ usersRouter.get('/', async (request, response) => {
 usersRouter.post('/', async (request, response) => {
   const body = request.body;
   const user = new User({
+    name: body.name,
     username: body.username,
     password: body.password,
     courses: body.courses,
@@ -16,6 +17,19 @@ usersRouter.post('/', async (request, response) => {
 
   const savedUser = await user.save();
   response.json(savedUser);
+  // user
+  //   .save()
+  //   .then(savedUser => {
+  //     if (savedUser) {
+  //       response.json(savedUser);
+  //     } else {
+  //       response.status(404).end();
+  //     }
+  //   })
+  //   .catch(error => {
+  //     console.log(error);
+  //     response.status(400).send({ error: 'non unique username' });
+  //   });
 });
 
 module.exports = usersRouter;
