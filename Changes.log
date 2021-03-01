@@ -1,0 +1,5 @@
+02-20-2021 Art T
+Created a basic chat skeleton on FE, created template on 
+BE for exchange of messages that can be used by BE, updated 
+all json packages to include all the node packages we need.
+'npm install' should install everything you need
