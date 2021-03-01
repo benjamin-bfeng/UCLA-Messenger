@@ -8,12 +8,7 @@ const router = express.Router();
 const User = require("../models/user");
 router.post(
   "/login",
- /* [
-    //check("username", "Please enter a valid usename").isUsername(),
-    check("password", "Please enter a valid password").isLength({
-      min: 6
-    })
-  ],*/
+
   async (req, res) => {
     const errors = validationResult(req);
 
