@@ -1,6 +1,13 @@
+
+body {background-color: #3287BE;}
+
 /* Customize website's scrollbar like Mac OS
 Not supports in Firefox and IE */
-
+h1 {
+    color: white;
+    font-family: Arial;
+    font-size: 150%;
+}
 /* total width */
 div::-webkit-scrollbar {
     background-color: #fff;
@@ -22,4 +29,17 @@ div::-webkit-scrollbar-thumb {
 /* set button(top and bottom of the scrollbar) */
 div::-webkit-scrollbar-button {
     display:none;
+}
+
+a:link, a:visited {
+    background-color: #2A82B9;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+a:hover, a:active {
+    background-color: black;
 }

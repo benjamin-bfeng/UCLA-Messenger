@@ -7,7 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "npm i && npm i express && npm i socket.io"
+    "install_modules": "npm i express && npm i socket.io"
   },
   "author": "",
   "license": "ISC",

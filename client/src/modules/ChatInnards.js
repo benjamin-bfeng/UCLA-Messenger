@@ -13,7 +13,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import {CTX} from './Store';
 
-import './index.css';
+import '../index.css';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Chat = () => {
+const ChatInnards = () => {
     const classes = useStyles();
 
     // CTX store
@@ -109,7 +109,7 @@ const Chat = () => {
                     />
                     <Button
                         variant="contained"
-                        color="primary"
+                        color="#2A82B9"
                         onClick={() => {
                             sendChatAction({from: user,msg: textValue, topic: activeTopic});
                             changeTextValue('');
@@ -124,4 +124,4 @@ const Chat = () => {
     );
 };
 
-export default Chat;
+export default ChatInnards;
