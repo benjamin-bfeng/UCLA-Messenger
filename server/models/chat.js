@@ -18,10 +18,13 @@ messageSchema.set('toJSON', {
 
 messageSchema.plugin(uniqueValidator);
 
+const Message = mongoose.model('Message', messageSchema);
+module.exports = Message;
+
 const chatSchema = new mongoose.Schema({
     name: { type: String, required: true },
     users: mongoose.Schema.Types.ObjectId,
-    messages: String
+    messages: [Message]
 })
 
 chatSchema.set('toJSON', {
@@ -32,3 +35,6 @@ chatSchema.set('toJSON', {
 });
 
 chatSchema.plugin(uniqueValidator);
+
+const Chat = mongoose.model('Chat', chatSchema);
+module.exports = Chat;
