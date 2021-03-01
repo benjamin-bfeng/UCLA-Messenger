@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import './index.css';
+
+import SignUp from './modules/SignUp';
+import Login from './modules/Login';
 
 import Chat from './modules/Chat';
 import Profile from "./modules/Profile";
@@ -15,6 +18,13 @@ const App = () => {
         </Route>
         <Route path='/profile'>
           <Profile/>
+        </Route>
+        <Route path='/signup'>
+          <SignUp/>
+        {/* <Redirect to='/signup'/> */}
+        </Route>
+        <Route path='/login'>
+          <Login/>
         </Route>
 {/*        <Route exact path='/'>
           <Home />
