@@ -23,7 +23,7 @@ module.exports = Message;
 
 const chatSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    users: mongoose.Schema.Types.ObjectId,
+    users: [mongoose.Schema.Types.ObjectId],
     messages: [Message]
 })
 
