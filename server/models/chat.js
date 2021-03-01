@@ -1,10 +1,11 @@
-const Message = mongoose.model('Message', messageSchema);
-module.exports = Message;
+const { ObjectID, Timestamp } = require('mongodb');
+const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const chatSchema = new mongoose.Schema({
     name: { type: String, required: true },
     users: [mongoose.Schema.Types.ObjectId],
-    messages: [Message]
+    messages: [mongoose.Schema.Types.ObjectId]
 })
 
 chatSchema.set('toJSON', {
