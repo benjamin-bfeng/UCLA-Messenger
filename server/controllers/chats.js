@@ -7,10 +7,26 @@ const { request, response } = require('express')
 const { findByIdAndDelete, findByIdAndRemove } = require('../models/chat')
 const Chat = require('../models/chat')
 const Message = require('../models/message')
+const User = require('../models/user')
 
 io.on("connection", (socket) => {
     console.log("Socket is connected...")
 })
+
+// add new user to a chat
+chatRouter.post('/user/:id', async (request, response) => {
+    const user = await User.findById(request.body._id)
+    const chat = await Chat.findById(request.params.id)
+    userArr = chat.users
+    userArr.push(user.id)
+    await Chat.findByIdAndUpdate(
+        chat.id,
+        { users: userArr }
+    )
+
+    response.json(200);
+})
+
 
 // add a new message to a chat
 chatRouter.post('/message/:id', async (request, response) => {
