@@ -11,7 +11,6 @@ const chatSchema = new mongoose.Schema({
 chatSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     delete returnedObject.__v;
-    delete returnedObject.password;
   },
 });
 
