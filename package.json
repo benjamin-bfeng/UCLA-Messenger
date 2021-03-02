@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/benjamin-bfeng/BruinChat/issues"
   },
-  "homepage": "https://github.com/benjamin-bfeng/BruinChat#readme"
+  "homepage": "https://github.com/benjamin-bfeng/BruinChat#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.6.4",
+    "mongoose": "^5.11.18",
+    "mongoose-unique-validator": "^2.0.3"
+  }
 }

@@ -1,17 +1,32 @@
+var app = require('../index.js')
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
 const chatRouter = require('express').Router()
 const { request, response } = require('express')
-const { findByIdAndDelete } = require('../models/chat')
+const { findByIdAndDelete, findByIdAndRemove } = require('../models/chat')
 const Chat = require('../models/chat')
 const Message = require('../models/message')
 
+io.on("connection", (socket) => {
+    console.log("Socket is connected...")
+})
+
 // add a new message to a chat
 chatRouter.post('/message/:id', async (request, response) => {
-    const body = request.body
-    const message = new Message({
-        user: body.user,
-        chat: body.chat,
+    const message = new Message(request.body)
+    const msgObj = await message.save()
 
-    })
+    const chat = await Chat.findById(request.params.id)
+    msgArr = chat.messages
+    msgArr.push(msgObj.id)
+    await Chat.findByIdAndUpdate(
+        chat.id,
+        { messages: msgArr }
+    )
+
+    io.emit('message', msgObj)
+    response.json(msgObj);
 })
 
 // get chat object  
@@ -26,6 +41,7 @@ chatRouter.get('/message/:id', async (request, response) => {
     response.json(message);
 })
 
+// new chat created 
 chatRouter.post('/', async (request, response) => {
     const body = request.body
     const chat = new Chat({
@@ -37,11 +53,13 @@ chatRouter.post('/', async (request, response) => {
     response.json(saved)
 })
 
+// get all chats 
 chatRouter.get('/', async (request, response) => {
     const chats = await Chat.find({}).exec()
     response.json(chats);
 })
 
+// delete a chat by id 
 chatRouter.delete('/chat/:id', async (request, response) => {
     await Chat.findByIdAndDelete(request.params.id)
     response.sendStatus(200)
