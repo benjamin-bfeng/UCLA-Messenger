@@ -19,18 +19,23 @@ io.on('connection', function(socket){
 http.listen(3001, function(){
   console.log('listening on *:3001');})
 
+module.exports = app;
+
 /*WRITTEN BY BE
 =======
+=======
+require('dotenv').config();
+>>>>>>> feature/chat
 const express = require('express');
+require('express-async-errors');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
-require('dotenv').config();
-
 const app = express();
 const port = process.env.PORT || 3001;
 
 const usersRouter = require('./controllers/users');
+const chatRouter = require('./controllers/chats')
+const middleware = require('./utils/middleware');
 
 const mongoUrl = process.env.MONGODB_URI;
 
@@ -45,9 +50,13 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/users', usersRouter);
+app.use('/api/chats', chatRouter);
+
+app.use(middleware.errorHandler);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 >>>>>>> a0c4b558881423741d9d6526334d96eee0ca160b
 });
+<<<<<<< HEAD
 */
