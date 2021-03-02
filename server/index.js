@@ -9,7 +9,6 @@ const bodyParser = require('body-parser');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 const registerRouter = require('./controllers/register');
-const profileRouter = require('./controllers/profile');
 
 const middleware = require('./utils/middleware');
 
@@ -28,9 +27,8 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/users', usersRouter);
-app.use('/login', loginRouter);
-app.use('/register', registerRouter);
-app.use('/', profileRouter);
+app.use('/api/login', loginRouter);
+app.use('/api/register', registerRouter);
 
 app.use(middleware.errorHandler);
 
