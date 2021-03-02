@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
-app.use('/me', profileRouter);
+app.use('/', profileRouter);
 
 app.use(middleware.errorHandler);
 
