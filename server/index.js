@@ -9,6 +9,8 @@ const bodyParser = require('body-parser');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 const registerRouter = require('./controllers/register');
+const profileRouter = require('./controllers/profile');
+
 const middleware = require('./utils/middleware');
 
 const mongoUrl = process.env.MONGODB_URI;
@@ -28,6 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
+app.use('/me', profileRouter);
 
 app.use(middleware.errorHandler);
 
