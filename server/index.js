@@ -7,6 +7,7 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 const usersRouter = require('./controllers/users');
+const chatRouter = require('./controllers/chats')
 const middleware = require('./utils/middleware');
 
 const mongoUrl = process.env.MONGODB_URI;
@@ -22,9 +23,12 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/users', usersRouter);
+app.use('/api/chats', chatRouter);
 
 app.use(middleware.errorHandler);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
+module.exports = app;
