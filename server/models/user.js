@@ -6,11 +6,13 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  courses: [mongoose.Schema.Types.ObjectId],
+  courses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }],
 });
 
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id;
+    delete returnedObject._id;
     delete returnedObject.__v;
     delete returnedObject.password;
   },
