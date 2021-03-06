@@ -33,42 +33,44 @@ usersRouter.get('/:username', async (req, res) => {
   }
 });
 
-usersRouter.post('/', async (request, response) => {
-  const body = request.body;
+// Transferred over to register.js
 
-  const getCourseIds = async () => {
-    return Promise.all(
-      body.courses.map(async course => {
-        const chatId = await Chat.findOne({ name: course });
+// usersRouter.post('/', async (request, response) => {
+//   const body = request.body;
 
-        return chatId._id;
-      }),
-    );
-  };
+//   const getCourseIds = async () => {
+//     return Promise.all(
+//       body.courses.map(async course => {
+//         const chatId = await Chat.findOne({ name: course });
 
-  const updateCoursesArray = async (courses, userId) => {
-    await courses.forEach(async courseId => {
-      console.log(courseId);
-      const chat = await Chat.findById(courseId);
-      console.log(chat);
-      chat.users = chat.users.concat(userId);
-      await chat.save();
-    });
-  };
+//         return chatId._id;
+//       }),
+//     );
+//   };
 
-  const updatedCourses = await getCourseIds();
+//   const updateCoursesArray = async (courses, userId) => {
+//     await courses.forEach(async courseId => {
+//       console.log(courseId);
+//       const chat = await Chat.findById(courseId);
+//       console.log(chat);
+//       chat.users = chat.users.concat(userId);
+//       await chat.save();
+//     });
+//   };
 
-  const user = new User({
-    name: body.name,
-    username: body.username,
-    password: body.password,
-    courses: updatedCourses,
-  });
+//   const updatedCourses = await getCourseIds();
 
-  const savedUser = await user.save();
-  await updateCoursesArray(user.courses, savedUser._id);
-  response.json(savedUser);
-});
+//   const user = new User({
+//     name: body.name,
+//     username: body.username,
+//     password: body.password,
+//     courses: updatedCourses,
+//   });
+
+//   const savedUser = await user.save();
+//   await updateCoursesArray(user.courses, savedUser._id);
+//   response.json(savedUser);
+// });
 
 // updated user by id at /api/users/:id
 usersRouter.put('/:id', async (request, response) => {

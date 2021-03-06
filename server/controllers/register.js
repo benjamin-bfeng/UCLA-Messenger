@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 const User = require('../models/user');
-
+const Chat = require('../models/chat');
 // register a new user at /api/register
 router.post(
   '/',
@@ -30,17 +30,42 @@ router.post(
         });
       }
 
+      // convert course strings to their respective ids
+      const getCourseIds = async () => {
+        return Promise.all(
+          courses.map(async course => {
+            const chatId = await Chat.findOne({ name: course });
+
+            return chatId._id;
+          }),
+        );
+      };
+
+      // add users to courses array
+      const updateCoursesArray = async (courses, userId) => {
+        await courses.forEach(async courseId => {
+          console.log(courseId);
+          const chat = await Chat.findById(courseId);
+          console.log(chat);
+          chat.users = chat.users.concat(userId);
+          await chat.save();
+        });
+      };
+
+      const updatedCourses = await getCourseIds();
+
       user = new User({
         name,
         username,
         password,
-        courses,
+        courses: updatedCourses,
       });
 
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
 
       const savedUser = await user.save();
+      await updateCoursesArray(user.courses, savedUser._id);
 
       const payload = {
         user: {
