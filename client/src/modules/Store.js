@@ -63,7 +63,7 @@ for (let i =0; i< listOfCsClasses.length; i++)
 }
 
 function reducer(state, action){
-    const {from,msg,topic} = action.payload;
+    const {from,msg,id,topic} = action.payload;
 
     switch(action.type)
     {
@@ -72,7 +72,7 @@ function reducer(state, action){
                 ...state,
                     [topic]:[
                         ...state[topic],
-                        {from, msg}
+                        {from, msg, id}
                 ]
             };
         default:
@@ -92,7 +92,7 @@ export default function Store(props){
     const [allChats, dispatch] = React.useReducer(reducer,initState);
 
     if(!socket){
-        socket = io(':3001');
+        socket = io(':3002');
         socket.on('chat message', function(msg){
             dispatch({type:'RECEIVE_MESSAGE',payload: msg});
         });

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import '../index.css';
 import { makeStyles } from '@material-ui/core/styles';
+import LikeButton from "./LikeButton";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -63,58 +64,11 @@ const defaultDesc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit," +
 
 const defaultRole = "Student"
 
-class EditableText extends Component{
-    state = {
-        value: "Some text here",
-        isInEditMode: false
-    }
-
-    changeEditMode = () => {
-        this.setState({
-            isInEditMode: !this.state.isInEditMode
-        })
-    }
-
-    updateComponentValue = () =>{
-        this.setState({
-            isInEditMode: false,
-            value: this.refs.theTextInput.value
-        })
-    }
-
-    renderEditView = () => {
-        return <div>
-            <input
-                type={"text"}
-                defaultValue={this.state.value}
-                ref="theTextInput"
-            />
-            <div>
-            <button onClick={this.changeEditMode}>X</button>
-            <button onClick={this.updateComponentValue}>OK</button>
-        </div></div>
-    }
-
-    renderDefaultView = () => {
-        return <div className={"dev-sandbox"}>
-            {this.state.value}
-            <div><button onClick={this.changeEditMode}>EDIT</button>
-        </div>
-        </div>
-
-    }
-
-    render() {
-        return this.state.isInEditMode ? this.renderEditView() :
-            this.renderDefaultView()
-    }
-}
-
 
 const Test = () => {
     return (
         <div className = 'dev-sandbox'>
-            <EditableText/>
+            <LikeButton/>
         </div>
     );
 }

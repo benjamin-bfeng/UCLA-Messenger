@@ -86,3 +86,10 @@ a:hover, a:active {
 }
 
 .button4:hover {background-color: #e7e7e7;}
+
+.like-button{
+    width: 25px;
+    height: 25px;
+    padding-left: 10px;
+    cursor: pointer;
+}

@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
+import LikeButton from "./LikeButton";
 
 import {CTX} from './Store';
 
@@ -93,6 +94,7 @@ const ChatInnards = () => {
                                             label={chat.msg}
                                         />
                                     </Tooltip>
+                                    <LikeButton/>
                                 </div>
                             ))
                         }

@@ -7,7 +7,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install_modules": "npm i express && npm i socket.io"
+    "install_modules": "npm i express && npm i socket.io && npm i -g concurrently",
+    "run_server": "concurrently \"node index.js\" \"node chatServer.js\""
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "nodemon": "^2.0.7"
   },
   "dependencies": {
+    "concurrently": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
