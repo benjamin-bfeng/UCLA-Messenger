@@ -12,7 +12,7 @@ const loginRouter = require('./controllers/login');
 const registerRouter = require('./controllers/register');
 
 const middleware = require('./utils/middleware');
-
+const fs = require('fs');
 const mongoUrl = process.env.MONGODB_URI;
 
 mongoose.connect(mongoUrl, {

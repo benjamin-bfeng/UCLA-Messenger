@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   courses: [mongoose.Schema.Types.ObjectId],
+  picture:{type: String, default:'default.jpg'},
+  //picture: { data: Buffer, contentType: String },
+  role: {type: String, default:'Student'},
+  bio: {type: String, default:'Introduce yourself!'}
 });
 
 userSchema.set('toJSON', {
