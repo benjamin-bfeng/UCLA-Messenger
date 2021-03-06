@@ -13,6 +13,7 @@ io.on("connection", (socket) => {
 })
 
 // add a new message to a chat
+// Looku up
 chatRouter.post('/message/:id', async (request, response) => {
     const message = new Message(request.body)
     const msgObj = await message.save()

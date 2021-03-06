@@ -109,7 +109,7 @@ const ChatInnards = () => {
                     />
                     <Button
                         variant="contained"
-                        color="#2A82B9"
+                        color="primary"
                         onClick={() => {
                             sendChatAction({from: user,msg: textValue, topic: activeTopic});
                             changeTextValue('');

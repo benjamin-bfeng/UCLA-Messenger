@@ -1,6 +1,9 @@
 import React from 'react'
 import io from 'socket.io-client'
 
+//http://localhost:3001/api/chats/message/603e9862161b01890c2fa61c
+//
+
 const listOfCsClasses =[
     "1", "19", "30", "31", "32", "33",
     "35L", "M51A", "97", "99", "111", "112",

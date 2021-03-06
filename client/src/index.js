@@ -9,6 +9,8 @@ import Login from './modules/Login';
 import Chat from './modules/Chat';
 import Profile from "./modules/Profile";
 
+import Test from "./modules/Dev_Sandbox";
+
 const App = () => {
   return <div className={'app'}>
     <Router>
@@ -25,6 +27,9 @@ const App = () => {
         </Route>
         <Route path='/login'>
           <Login/>
+        </Route>
+        <Route path='/dev'>
+          <Test/>
         </Route>
 {/*        <Route exact path='/'>
           <Home />
