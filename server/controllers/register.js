@@ -51,21 +51,24 @@ router.post(
           await chat.save();
         });
       };
-
-      const updatedCourses = await getCourseIds();
+      if (courses) {
+        const updatedCourses = await getCourseIds();
+      }
 
       user = new User({
         name,
         username,
         password,
-        courses: updatedCourses,
+        courses: courses ? updatedCourses : [],
       });
 
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
 
       const savedUser = await user.save();
-      await updateCoursesArray(user.courses, savedUser._id);
+      if (courses) {
+        await updateCoursesArray(user.courses, savedUser._id);
+      }
 
       const payload = {
         user: {

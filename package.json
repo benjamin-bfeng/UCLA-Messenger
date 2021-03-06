@@ -4,7 +4,7 @@
   "description": "<!-- TABLE OF CONTENTS -->",
   "main": "index.js",
   "scripts": {
-    "install": "cd server && npm i && cd ../client && npm i",
+    "install": "cd server && npm i && npm i express && npm i socket.io && cd ../client && npm i && npm i express && npm i socket.io && npm i socket.io-client && npm i material-ui/core",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
