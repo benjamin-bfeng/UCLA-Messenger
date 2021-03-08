@@ -63,16 +63,16 @@ for (let i =0; i< listOfCsClasses.length; i++)
 }
 
 function reducer(state, action){
-    const {from,msg,id,topic} = action.payload;
+    const {user,message,chat} = action.payload;
 
     switch(action.type)
     {
         case 'RECEIVE_MESSAGE':
             return{
                 ...state,
-                    [topic]:[
-                        ...state[topic],
-                        {from, msg, id}
+                    [chat]:[
+                        ...state[chat],
+                        {user, message}
                 ]
             };
         default:

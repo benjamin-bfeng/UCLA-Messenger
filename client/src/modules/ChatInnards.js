@@ -87,11 +87,11 @@ const ChatInnards = () => {
                         {
                             allChats[activeTopic].map((chat,index) => (
                                 <div className={classes.message} key={index}>
-                                    <Tooltip title={chat.from} placement="left">
+                                    <Tooltip title={chat.user} placement="left">
                                         <Chip
                                             variant={"outlined"}
                                             avatar={<Avatar src="/static/images/avatar/1.jpg" />}
-                                            label={chat.msg}
+                                            label={chat.message}
                                         />
                                     </Tooltip>
                                     <LikeButton/>
@@ -113,7 +113,7 @@ const ChatInnards = () => {
                         variant="contained"
                         color="primary"
                         onClick={() => {
-                            sendChatAction({from: user,msg: textValue, topic: activeTopic});
+                            sendChatAction({user: user,message: textValue, chat: activeTopic});
                             changeTextValue('');
                         }}
                     >
