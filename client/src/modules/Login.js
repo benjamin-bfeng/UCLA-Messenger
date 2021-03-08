@@ -21,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center'
   },
   contentWidth: {
-    width: '60%'
+    width: '60%',
+    margin: '1%'
   }
 }));
 
@@ -42,12 +43,29 @@ const Login = () => {
             <Button
               className={classes.contentWidth}
               variant="contained"
-              onClick={() => {
-                console.log(name, password)
+              disabled={!name || !password}
+              onClick={function () {
+                fetch('http://localhost:3001/api/login/', {
+                  headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                  },
+                  method: 'POST',
+                  body: new URLSearchParams({
+                    'username': name,
+                    'password': password
+                  })
+                })
+                .then(response => response.json())
+                .then(data => {
+                  console.log('Success:', data);
+                })
+                .catch((error) => {
+                  console.error('Error:', error);
+                });
               }}
             >Login</Button>
-          <Typography> Don't have an account? 
-            <Link href="/signup">Create One</Link>
+          <Typography> Don't have an account yet? 
+            <Link style={{margin: "1%"}} href="/signup">Create an Account</Link>
           </Typography>
         </Card>
     </Paper>
