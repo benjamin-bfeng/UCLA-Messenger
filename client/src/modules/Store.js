@@ -3,7 +3,7 @@ import io from 'socket.io-client'
 
 //http://localhost:3001/api/chats/message/603e9862161b01890c2fa61c
 //
-
+export const CTX = React.createContext();
 const listOfCsClasses =[
     "1", "19", "30", "31", "32", "33",
     "35L", "M51A", "97", "99", "111", "112",
@@ -32,35 +32,32 @@ const listOfCsClasses =[
     "497E", "596", "597A", "597B", "597C", "598", "599"
 ]
 
-export const CTX = React.createContext();
-
-/*
-{
-    msg {
-        from: 'user',
-        msg: 'hi',
-        topic: 'general'
-    }
-
-    state {
-        general:[
-            {msg},{msg},{msg}, {newmsg}
-        ]
-        topic2:[
-            {msg},{msg},{msg}
-        ]
-
-    }
-
-}
- */
-
-const initState={}
+const initState={};
 
 for (let i =0; i< listOfCsClasses.length; i++)
 {
     initState["CS "+listOfCsClasses[i]] =[];
 }
+
+console.log(initState);
+
+/*const initState={};
+
+const fetchChatData = async () =>{
+    const url = "http://localhost:3001/api/chats";
+    const response = await fetch(url);
+    const data = await response.text();
+    console.log(data);
+    for (let i = 0; i< data.length;i++)
+    {
+        initState[data[i].name] = [];
+    }
+    console.log(initState);
+}
+
+fetchChatData();*/
+
+
 
 function reducer(state, action){
     const {user,message,chat} = action.payload;
@@ -88,7 +85,6 @@ function sendChatAction(value){
 }
 
 export default function Store(props){
-
     const [allChats, dispatch] = React.useReducer(reducer,initState);
 
     if(!socket){

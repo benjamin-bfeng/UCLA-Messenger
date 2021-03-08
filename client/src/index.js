@@ -12,6 +12,7 @@ import Profile from "./modules/Profile";
 import Test from "./modules/Dev_Sandbox";
 
 
+
 const App = () => {
   return <div className={'app'}>
     <Router>
@@ -22,8 +23,7 @@ const App = () => {
         <Route path='/chat'>
           <Chat/>
         </Route>
-        <Route path='/profile'>
-          <Profile/>
+        <Route path={'/profile/:username'} children={<Profile/>}>
         </Route>
         <Route path='/signup'>
           <SignUp/>

@@ -1,4 +1,4 @@
-import React, {Component, useEffect} from 'react';
+import React, {Component, useEffect, useRef} from 'react';
 import '../index.css';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -9,7 +9,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import { Link, useParams } from 'react-router-dom';
-
+import {useFetchProfile} from "./useFetchProfile"
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
     photoAndChats:{
         width: '20%',
-        height: '300px',
+        height: '400px',
     },
     desc:{
         width: '80%',
@@ -46,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: '256px',
         marginLeft: 'auto',
         marginRight: 'auto',
+        marginBottom: 'auto',
         display: 'block',
     },
     cardRoot: {
@@ -68,6 +70,9 @@ const useStyles = makeStyles((theme) => ({
     },
     displayText:{
         alignItems: "center",
+    },
+    upload:{
+        color: "#FFF",
     }
 }));
 
@@ -146,37 +151,71 @@ class EditableText extends Component{
 
 const Profile = () => {
     const classes = useStyles();
-    const [desc,setDesc] = React.useState(defaultProfile.desc);
-    const [name,setName] = React.useState(defaultProfile.name);
-    const [role,setRole] = React.useState(defaultProfile.role);
-    const { id } = useParams();
+    const { username } = useParams();
+    const url = "http://localhost:3001/api/users/"+username;
+    const { loading, profile} = useFetchProfile(url);
+    const [desc,setDesc] = React.useState();
+    const [name,setName] = React.useState();
+    const [role,setRole] = React.useState();
+    const [imageUrl,setImageUrl] = React.useState();
+    const [file,setFile] = React.useState(null);
 
+    console.log(profile);
+
+
+    const initialRender = useRef(true);
+
+    useEffect(()=>{
+        if (profile != null){
+            setDesc(profile.bio);
+            setName(profile.name);
+            setRole(profile.role);
+            const img_api = "http://localhost:3001/api/users/image/"+profile.id;
+            setImageUrl(img_api);
+        }
+        console.log("rerender");
+    },[profile])
 
     function handleDesc(newValue) {
-        setDesc(newValue);
+        if (newValue !== desc) {
+            setDesc(newValue);
+            profile["bio"]=newValue;
+            //TODO: post new data to sever
+            }
     }
 
     function handleName(newValue) {
-        setName(newValue);
+        if(newValue !== name) {
+            setName(newValue);
+            console.log(name);
+            profile["name"]=newValue;
+            //TODO: post new data to sever
+        }
     }
 
     function handleRole(newValue) {
-        setRole(newValue);
+        if(newValue !== role) {
+            setRole(newValue);
+            console.log(role);
+            profile["role"]=newValue;
+            //TODO: post new data to sever
+        }
     }
 
-    useEffect(()=>{
-        console.log('desc has changed')
-    },[desc])
-
-    useEffect(()=>{
-        console.log('name has changed')
-    },[name])
-
-    useEffect(()=>{
-    },[role])
+    function fileSelectedHandler (event){
+        setFile(event.target.files[0]);
+    }
+    //TODO: Fix img upload
+    function fileUploadHandler(){
+        const fd = new FormData;
+        fd.append('image',file,profile["id"])
+        axios.post("http://localhost:3001/api/users/image/"+profile["id"],fd)
+            .then(response => {console.log(response)});
+    }
 
     return (
         <div className = 'profile'>
+            { loading ? 'loading..':
                 <Paper className={classes.root} elevation={3}>
                     <div className={classes.flex}>
                         <div className={classes.photoAndChats}>
@@ -188,9 +227,21 @@ const Profile = () => {
                             </div>
                             <img
                                  className={classes.img}
-                                 src={defaultProfile.img}
+                                 src={imageUrl}
                                  alt={'defProf'}
                             />
+                            <label htmlFor="avatar"><h2 className={classes.upload}>Choose a profile picture:</h2></label>
+                            <input
+                                type='file'
+                                id="avatar" name="avatar"
+                                onChange={fileSelectedHandler}
+                                accept="image/png, image/jpeg"
+                            />
+                            <button
+                                onClick={fileUploadHandler}
+                            >
+                                Upload
+                            </button>
                         </div>
                         <div className={classes.desc}>
                             <Card className={classes.cardRoot}>
@@ -223,7 +274,7 @@ const Profile = () => {
                     </div>
 
 
-                </Paper>
+                </Paper>}
         </div>
     );
 }

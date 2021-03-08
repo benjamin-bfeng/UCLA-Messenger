@@ -3,6 +3,7 @@ import '../index.css';
 import { makeStyles } from '@material-ui/core/styles';
 import LikeButton from "./LikeButton";
 import Oauth from "./Oauth";
+import {useFetchProfile} from "./useFetchProfile"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,9 +59,10 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Test = () => {
+
     return (
         <div className = 'dev-sandbox'>
-            <Oauth/>
+
         </div>
     );
 }
