@@ -11,11 +11,15 @@ import Profile from "./modules/Profile";
 
 import Test from "./modules/Dev_Sandbox";
 
+
 const App = () => {
   return <div className={'app'}>
     <Router>
       <Switch>
         <Route exact path='/'>
+          <Login/>
+        </Route>
+        <Route path='/chat'>
           <Chat/>
         </Route>
         <Route path='/profile'>
@@ -23,10 +27,7 @@ const App = () => {
         </Route>
         <Route path='/signup'>
           <SignUp/>
-        {/* <Redirect to='/signup'/> */}
-        </Route>
-        <Route path='/login'>
-          <Login/>
+         <Redirect to='/signup'/>
         </Route>
         <Route path='/dev'>
           <Test/>
@@ -49,4 +50,8 @@ const App = () => {
   </div>;
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+
+
+ReactDOM.render(
+    <App/>
+, document.getElementById('root'));
