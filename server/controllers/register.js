@@ -1,5 +1,5 @@
 const express = require('express');
-const { check, validationResult } = require('express-validator');
+const Validator = require("validator");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -12,14 +12,17 @@ router.post(
   '/',
 
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        errors: errors.array(),
-      });
-    }
-    console.log(req.body);
-    const { name, username, password, courses } = req.body;
+
+    const { name, username, email, password, courses } = req.body;
+    if (!email)
+        return res.status(400).json({
+          message: 'Must Input Email',
+        });
+    if (!Validator.isEmail(email))
+        return res.status(400).json({
+          message: 'Must Input Valid Email',
+        });
+
     try {
       let user = await User.findOne({
         username,
@@ -57,6 +60,7 @@ router.post(
       user = new User({
         name,
         username,
+        email,
         password,
         courses: updatedCourses,
       });
