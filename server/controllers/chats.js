@@ -10,7 +10,19 @@ const Message = require('../models/message');
 const User = require('../models/user');
 
 io.on('connection', socket => {
-  console.log('Socket is connected...');
+    console.log('Socket is connected...');
+
+    socket.on('chat message', function(msg) {
+        const message = new Message(msg.data);
+        const msgObj = message.save();
+
+        const chat = Chat.findById(socket.handshake.query['id']);
+        msgArr = chat.messages;
+        msgArr.push(msgObj.id);
+        Chat.findByIdAndUpdate(chat.id, { messages: msgArr });
+
+        io.emit('message', msgObj);
+    });
 });
 
 // add new user to a chat
