@@ -11,6 +11,7 @@ import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import LikeButton from "./LikeButton";
+import SearchModal from "./SearchModal";
 
 import {CTX} from './Store';
 
@@ -50,6 +51,10 @@ const useStyles = makeStyles((theme) => ({
     button:{
         width: '15%'
     },
+    modal:{
+        width: '100%',
+        textAlign: 'left'
+    }
 }));
 
 const ChatInnards = () => {
@@ -61,7 +66,27 @@ const ChatInnards = () => {
 
     // local state
     const [activeTopic, changeActiveTopic] = React.useState(topics[0]);
+    console.log(topics[0])
     const [textValue,changeTextValue] = React.useState('');
+    const [participatingChats,setChats] = React.useState([]);
+
+    const addChats = (array) =>{
+        let result_array = [];
+        let arr = participatingChats.concat(array);
+        let len = arr.length;
+        let assoc = {};
+
+        while(len--) {
+            let item = arr[len];
+
+            if(!assoc[item])
+            {
+                result_array.unshift(item);
+                assoc[item] = true;
+            }
+        }
+        setChats(result_array);
+    };
 
     return (
         <div>
@@ -72,10 +97,11 @@ const ChatInnards = () => {
                 <Typography variant={"h5"} component={"h5"}>
                     {activeTopic}
                 </Typography>
+                <div className={classes.modal}><SearchModal handleChange={addChats}/></div>
                 <div className={classes.flex}>
                     <div className={classes.topicsWindow}>
                         <List>{
-                            topics.map(topic => (
+                            participatingChats.map(topic => (
                                 <ListItem onClick={(e)=>changeActiveTopic(e.target.innerText)} key={topic}button>
                                     <ListItemText primary={topic} />
                                 </ListItem>

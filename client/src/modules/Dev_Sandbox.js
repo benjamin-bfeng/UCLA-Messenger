@@ -1,9 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import '../index.css';
 import { makeStyles } from '@material-ui/core/styles';
-import LikeButton from "./LikeButton";
-import Oauth from "./Oauth";
-import {useFetchProfile} from "./useFetchProfile"
+import SearchModal from "./SearchModal";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -59,10 +58,11 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Test = () => {
+    const [modal,setModal] = useState(false);
 
     return (
         <div className = 'dev-sandbox'>
-
+            <SearchModal/>
         </div>
     );
 }

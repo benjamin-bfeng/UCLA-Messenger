@@ -180,7 +180,9 @@ const Profile = () => {
         if (newValue !== desc) {
             setDesc(newValue);
             profile["bio"]=newValue;
+
             //TODO: post new data to sever
+            //http://localhost:3001/api/users/:id axios.put fetch put
             }
     }
 
@@ -208,9 +210,11 @@ const Profile = () => {
     //TODO: Fix img upload
     function fileUploadHandler(){
         const fd = new FormData;
-        fd.append('image',file,profile["id"])
-        axios.post("http://localhost:3001/api/users/image/"+profile["id"],fd)
+        fd.append('picture',file,profile["id"])
+        //http://localhost:3001/api/users/image/:id
+        axios.put("http://localhost:3001/api/users/image/"+profile["id"],fd)
             .then(response => {console.log(response)});
+
     }
 
     return (
