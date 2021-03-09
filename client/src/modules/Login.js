@@ -1,15 +1,25 @@
 import React from 'react';
-import {Button, Link, Typography, Paper, Card, CardContent, Input, makeStyles} from '@material-ui/core';
+import {
+  Button,
+  Link,
+  Typography,
+  Paper,
+  Card,
+  CardContent,
+  Input,
+  makeStyles,
+} from '@material-ui/core';
+import loginService from '../services/login';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: '#F7AA14',
-    padding: theme.spacing(2,3),
+    padding: theme.spacing(2, 3),
     textAlign: 'center',
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'wrap',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   cardRoot: {
     width: '80%',
@@ -18,40 +28,68 @@ const useStyles = makeStyles((theme) => ({
   },
   cardContent: {
     display: 'absolute',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   contentWidth: {
-    width: '60%'
-  }
+    width: '60%',
+  },
 }));
 
 const Login = () => {
-  const [name, setName] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const classes = useStyles();
+
+  const handleLogin = async () => {
+    const loginInfo = {
+      username,
+      password,
+    };
+
+    try {
+      const user = await loginService.login(loginInfo);
+      console.log(user);
+    } catch (err) {
+      console.log('Unable to Login');
+    }
+  };
   return (
     <Paper className={classes.root} elevation={3}>
-        <Typography variant="h3" component="h3" >Sign Up</Typography>
-        <Card className={classes.cardRoot}>
-            <CardContent className={classes.cardContent}>
-                <Input className={classes.contentWidth} value={name} type={'name'} placeholder={'Username'}
-                  onChange={e => setName(e.target.value)}/>
-                <Input className={classes.contentWidth} value={password} type={'password'} placeholder={'Password'}
-                  onChange={e => setPassword(e.target.value)}/>
-            </CardContent>
-            <Button
-              className={classes.contentWidth}
-              variant="contained"
-              onClick={() => {
-                console.log(name, password)
-              }}
-            >Login</Button>
-          <Typography> Don't have an account? 
-            <Link href="/signup">Create One</Link>
-          </Typography>
-        </Card>
+      <Typography variant="h3" component="h3">
+        Login
+      </Typography>
+      <Card className={classes.cardRoot}>
+        <CardContent className={classes.cardContent}>
+          <Input
+            className={classes.contentWidth}
+            value={username}
+            type={'username'}
+            placeholder={'Username'}
+            onChange={e => setUsername(e.target.value)}
+          />
+          <Input
+            className={classes.contentWidth}
+            value={password}
+            type={'password'}
+            placeholder={'Password'}
+            onChange={e => setPassword(e.target.value)}
+          />
+        </CardContent>
+        <Button
+          className={classes.contentWidth}
+          variant="contained"
+          onClick={handleLogin}
+        >
+          Login
+        </Button>
+        <Typography>
+          {' '}
+          Don't have an account?
+          <Link href="/signup">Create One</Link>
+        </Typography>
+      </Card>
     </Paper>
   );
-}
+};
 
 export default Login;
