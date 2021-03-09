@@ -66,7 +66,7 @@ chatRouter.post('/', async (request, response) => {
 // get all chats
 chatRouter.get('/', async (request, response) => {
   const chats = await Chat.find({})
-    .populate({ path: 'users', select: 'name' })
+    .populate({ path: 'users', select: 'name username' })
     .populate({ path: 'messages', select: 'message' });
   response.json(chats);
 });
