@@ -10,6 +10,8 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import loginService from '../services/login';
+import userService from '../services/users';
+import { Redirect } from 'react-router';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,9 +37,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Login = () => {
+const Login = props => {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [loggedIn, setLoggedIn] = React.useState(false);
+
   const classes = useStyles();
 
   const handleLogin = async () => {
@@ -48,7 +52,8 @@ const Login = () => {
 
     try {
       const user = await loginService.login(loginInfo);
-      console.log(user);
+      userService.setToken(user.token);
+      setLoggedIn(true);
     } catch (err) {
       console.log('Unable to Login');
     }
@@ -75,13 +80,18 @@ const Login = () => {
             onChange={e => setPassword(e.target.value)}
           />
         </CardContent>
-        <Button
-          className={classes.contentWidth}
-          variant="contained"
-          onClick={handleLogin}
-        >
-          Login
-        </Button>
+        {loggedIn ? (
+          <Redirect to="/chat" />
+        ) : (
+          <Button
+            className={classes.contentWidth}
+            variant="contained"
+            onClick={handleLogin}
+          >
+            Login
+          </Button>
+        )}
+
         <Typography>
           {' '}
           Don't have an account?

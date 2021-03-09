@@ -10,6 +10,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import registrationService from '../services/register';
+import userService from '../services/users';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,7 +53,7 @@ const SignUp = () => {
 
     try {
       const user = await registrationService.register(registrationInfo);
-      console.log(user);
+      userService.setToken(user.token);
     } catch (err) {
       console.log('unable to signup');
     }
