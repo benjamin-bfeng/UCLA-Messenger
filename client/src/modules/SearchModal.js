@@ -3,7 +3,7 @@ import '../index.css';
 import Modal from 'react-modal';
 import {listOfCsClassesUndergrad, listOfBeClassesUndergrad,listOfChEClassesUndergrad,
     listOfCNEEClassesUndergrad,listOfECEClassesUndergrad,listOfEngClassesUndergrad,
-    listOfMatSciClassesUndergrad,listOfMNEClassesUndergrad} from './classData';
+    listOfMatSciClassesUndergrad,listOfMNEClassesUndergrad} from './localData';
 import Chip from "@material-ui/core/Chip";
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
@@ -64,6 +64,7 @@ const SearchModal = ({handleChange}) => {
                 Add Class
             </Button>
             <Modal
+                ariaHideApp={false}
                 isOpen={modal}
                 onRequestClose={()=>setModal(false)}
                 style={{
@@ -83,6 +84,7 @@ const SearchModal = ({handleChange}) => {
                     }
                 }}
             >
+                <div><button onClick={()=>setModal(false)}>X</button></div>
                 <div style={{textAlign: 'center'}}><Typography variant={"h4"}>
                     Search Classes
                 </Typography></div>
@@ -126,7 +128,7 @@ const SearchModal = ({handleChange}) => {
                 )}
 
 
-                <div><button onClick={()=>setModal(false)}>Close</button></div>
+
             </Modal>
         </div>
     );

@@ -12,9 +12,9 @@ import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import LikeButton from './LikeButton';
 import SearchModal from './SearchModal';
+import DisplayProfile from "./DisplayProfile";
 
 import { CTX } from './Store';
-import { Link } from 'react-router-dom';
 import '../index.css';
 
 const useStyles = makeStyles(theme => ({
@@ -66,7 +66,7 @@ const ChatInnards = () => {
 
   // local state
   const [activeTopic, changeActiveTopic] = React.useState(topics[0]);
-  console.log(topics[0]);
+  console.log("Chat topic set to: ",topics[0]);
   const [textValue, changeTextValue] = React.useState('');
   const [participatingChats, setChats] = React.useState([]);
 
@@ -93,10 +93,7 @@ const ChatInnards = () => {
         <Typography variant={'h4'} component={'h4'}>
           Bruin Chat
         </Typography>
-        {/* TODO make this go to user's own profile, not hardcoded */}
-        <Link to={`/profile/nobody`} className="btn">
-          <Typography>Profile</Typography>
-        </Link>
+        <DisplayProfile username={user} currentUser={user}/>
         <Typography variant={'h5'} component={'h5'}>
           {activeTopic}
         </Typography>
@@ -151,6 +148,7 @@ const ChatInnards = () => {
                 chat: activeTopic,
               });
               changeTextValue('');
+              console.log(textValue);
             }}
           >
             Send

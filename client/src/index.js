@@ -7,27 +7,36 @@ import SignUp from './modules/SignUp';
 import Login from './modules/Login';
 
 import Chat from './modules/Chat';
-import Profile from "./modules/Profile";
 
 import Test from "./modules/Dev_Sandbox";
 
 
-
 const App = () => {
+  const [authed,setAuthed] = React.useState(false);
+  const [username,setUsername] = React.useState(null);
+
+  console.log("router",authed,sessionStorage.getItem("auth"));
+
+  const authenticate = (user) => {
+    setAuthed(true);
+    setUsername(user);
+  };
+
   return <div className={'app'}>
     <Router>
       <Switch>
         <Route exact path='/'>
-          <Login/>
+          {(!authed) ?
+          <Login authenticate={authenticate}/>
+          : <Redirect to="chat"/>}
         </Route>
         <Route path='/chat'>
-          <Chat/>
-        </Route>
-        <Route path={'/profile/:username'} children={<Profile/>}>
+          <Chat authed={authed} user={username}/>
         </Route>
         <Route path='/signup'>
-          <SignUp/>
-         <Redirect to='/signup'/>
+          {(!authed) ?
+              <SignUp authenticate={authenticate}/>
+              : <Redirect to="chat"/>}
         </Route>
         <Route path='/dev'>
           <Test/>

@@ -36,11 +36,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignUp = () => {
+const SignUp = ({authenticate}) => {
   const [name, setName] = React.useState('');
   const [username, setUsername] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [signedUp,setSignedUp] = React.useState(false);
   const classes = useStyles();
 
   const handleRegister = async () => {
@@ -54,6 +55,7 @@ const SignUp = () => {
     try {
       const user = await registrationService.register(registrationInfo);
       userService.setToken(user.token);
+      setSignedUp(true);
     } catch (err) {
       console.log('unable to signup');
     }
@@ -95,13 +97,16 @@ const SignUp = () => {
             onChange={e => setPassword(e.target.value)}
           />
         </CardContent>
-        <Button
-          className={classes.contentWidth}
-          variant="contained"
-          onClick={handleRegister}
-        >
-          Sign Up
-        </Button>
+        {signedUp ?
+            authenticate(username) : (
+                <Button
+                    className={classes.contentWidth}
+                    variant="contained"
+                    onClick={handleRegister}
+                >
+                  Sign Up
+                </Button>
+            )}
         <Typography>
           {' '}
           Have an account?

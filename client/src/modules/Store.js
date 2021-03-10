@@ -2,7 +2,7 @@ import React from 'react'
 import io from 'socket.io-client'
 import {listOfCsClassesUndergrad, listOfBeClassesUndergrad,listOfChEClassesUndergrad,
     listOfCNEEClassesUndergrad,listOfECEClassesUndergrad,listOfEngClassesUndergrad,
-    listOfMatSciClassesUndergrad,listOfMNEClassesUndergrad} from './classData'
+    listOfMatSciClassesUndergrad,listOfMNEClassesUndergrad} from './localData'
 
 export const CTX = React.createContext();
 
@@ -26,23 +26,6 @@ for (let i =0; i< listClasses.length; i++)
 }
 
 console.log(initState);
-
-/*const initState={};
-
-const fetchChatData = async () =>{
-    const url = "http://localhost:3001/api/chats";
-    const response = await fetch(url);
-    const data = await response.text();
-    console.log(data);
-    for (let i = 0; i< data.length;i++)
-    {
-        initState[data[i].name] = [];
-    }
-    console.log(initState);
-}
-
-fetchChatData();*/
-
 
 
 function reducer(state, action){
@@ -71,6 +54,7 @@ function sendChatAction(value){
 }
 
 export default function Store(props){
+    console.log("props: ", props);
     const [allChats, dispatch] = React.useReducer(reducer,initState);
 
     if(!socket){
@@ -80,9 +64,7 @@ export default function Store(props){
         });
     }
 
-    const user = 'aaron' + Math.random(100).toFixed(2);
-
-
+    const user = props.user;
 
     return (
         <CTX.Provider value={{allChats, sendChatAction, user}}>

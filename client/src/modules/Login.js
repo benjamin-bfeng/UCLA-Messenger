@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Button,
   Link,
@@ -11,7 +11,6 @@ import {
 } from '@material-ui/core';
 import loginService from '../services/login';
 import userService from '../services/users';
-import { Redirect } from 'react-router';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Login = props => {
+const Login = ({authenticate}) => {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -52,12 +51,14 @@ const Login = props => {
 
     try {
       const user = await loginService.login(loginInfo);
+      console.log("user: ",user);
       userService.setToken(user.token);
       setLoggedIn(true);
     } catch (err) {
       console.log('Unable to Login');
     }
   };
+
   return (
     <Paper className={classes.root} elevation={3}>
       <Typography variant="h3" component="h3">
@@ -80,9 +81,8 @@ const Login = props => {
             onChange={e => setPassword(e.target.value)}
           />
         </CardContent>
-        {loggedIn ? (
-          <Redirect to="/chat" />
-        ) : (
+        {loggedIn ?
+            authenticate(username) : (
           <Button
             className={classes.contentWidth}
             variant="contained"

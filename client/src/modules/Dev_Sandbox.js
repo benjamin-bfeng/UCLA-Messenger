@@ -1,8 +1,7 @@
-import React, {Component, useState} from 'react';
+import React from 'react';
 import '../index.css';
 import { makeStyles } from '@material-ui/core/styles';
-import SearchModal from "./SearchModal";
-
+import DisplayProfile from "./DisplayProfile";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,11 +57,10 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Test = () => {
-    const [modal,setModal] = useState(false);
 
     return (
         <div className = 'dev-sandbox'>
-            <SearchModal/>
+            <DisplayProfile currentUser={"zdjarto"} username={'zdjarto'}/>
         </div>
     );
 }

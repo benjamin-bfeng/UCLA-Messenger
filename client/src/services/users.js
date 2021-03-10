@@ -25,8 +25,21 @@ const updateUserData = async (id, newObject) => {
     },
   };
 
+  const textObject = (({name,role,bio}) => ({name,role,bio}))(newObject);
+
+  console.log(newObject.file);
+  if(newObject.file) {
+    const fd = new FormData();
+    fd.append('picture', newObject.file, id);
+    axios
+        .put('http://localhost:3001/api/users/image/' + id, fd,config)
+        .then(response => {
+          console.log(response.data);
+        });
+  }
+
   console.log(config);
-  const response = await axios.put(`${baseUrl}/${id}`, newObject, config);
+  const response = await axios.put(`${baseUrl}/${id}`, textObject, config);
   console.log(response.data);
   return response.data;
 };

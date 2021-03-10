@@ -1,4 +1,6 @@
 //Computer Science Undergrad
+import defProfPic from "./assets/defProf.jpg";
+
 export const listOfCsClassesUndergrad =[
     "1", "19", "30", "31", "32", "33",
     "35L", "M51A", "97", "99", "111", "112",
@@ -87,3 +89,18 @@ export const listOfMNEClassesUndergrad = [
     "C175A", "181A", "182B", "182C", "183A", "M183B", "C183C", "185", "C186",
     "C187L", "188", "194", "199"
 ];
+
+export const defaultProfile = {
+    name: 'Default Name',
+    id: '',
+    desc:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit,' +
+        ' sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ' +
+        'ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea' +
+        ' commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit' +
+        ' esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat' +
+        ' non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    img: defProfPic,
+    role: 'Student',
+    listOfClasses: [],
+};
