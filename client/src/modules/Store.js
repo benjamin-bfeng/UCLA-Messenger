@@ -1,7 +1,7 @@
 import React from 'react'
 import io from 'socket.io-client'
 
-const listOfCsClasses =[
+export const listOfCsClasses =[
     "1", "19", "30", "31", "32", "33",
     "35L", "M51A", "97", "99", "111", "112",
     "117", "118", "M119", "CM121", "CM122",
