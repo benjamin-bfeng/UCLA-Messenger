@@ -93,3 +93,15 @@ a:hover, a:active {
     padding-left: 10px;
     cursor: pointer;
 }
+
+.login-box{
+    width: 20%;
+    height: 50%;
+    position: absolute;
+    left: 40%;
+    top: 25%;
+    right: 25%;
+    text-align: center;
+    background-color: white;
+    border-radius: 30px;
+}
