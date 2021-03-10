@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import {listOfCsClassesUndergrad, listOfBeClassesUndergrad,listOfChEClassesUndergrad,
     listOfCNEEClassesUndergrad,listOfECEClassesUndergrad,listOfEngClassesUndergrad,
     listOfMatSciClassesUndergrad,listOfMNEClassesUndergrad} from './localData';
+import MenuItem from "@material-ui/core/MenuItem";
 import Chip from "@material-ui/core/Chip";
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
@@ -54,7 +55,7 @@ const SearchModal = ({handleChange}) => {
     console.log(addedClasses);
 
     return (
-        <div>
+        <React.Fragment>
             <Button
                 variant="contained"
                 color="primary"
@@ -78,18 +79,20 @@ const SearchModal = ({handleChange}) => {
                     },
                     content: {
                         position: 'absolute',
+                        textAlign: 'center',
                         width: "300px",
                         height: "540px",
-                        left: '70px'
-                    }
+                        left: '70px',
+                        overflowY: "hidden",
+                    },
                 }}
             >
-                <div><button onClick={()=>setModal(false)}>X</button></div>
-                <div style={{textAlign: 'center'}}><Typography variant={"h4"}>
+                <div style={{textAlign: 'right'}}>
+                    <button  onClick={()=>setModal(false)}>X</button>
+                </div>
+                <Typography variant={"h4"}>
                     Search Classes
-                </Typography></div>
-                <div
-                    style={{textAlign: 'center'}}>
+                </Typography>
                     <input
                         type={"text"}
                         placeholder={"Search..."}
@@ -100,37 +103,24 @@ const SearchModal = ({handleChange}) => {
                             width: '210px',
                             height: '40px'
                         }}/>
-                </div>
-                {listClasses.filter((value => {
-                    if(searchTerm=='')
-                        return value;
-                    if (value.toLowerCase().includes(searchTerm.toLowerCase()))
-                        return value;
-                })).map(
-                    (x)=>{
-                        return <div style={{textAlign: 'center'}}>
-                                <Chip
-                                    label={<h4>{x}</h4>}
-                                    style={{paddingTopBottom:'8px'}}
-                                />
-                                <Chip
-                                    label={<h3>add</h3>}
-                                    clickable
-                                    style={{
-                                        backgroundColor:'#0075c1',
-                                        margin: '4px',
-                                        color: '#FFF',
-                                    }}
-                                    onClick={() => addClass(x)}
-                                />
-                            </div>;
+                <div style={{overflowY: "scroll", height: "75%"}}>
+                {listClasses.filter((value => (value.toLowerCase().includes(searchTerm.toLowerCase()))
+                )).map(
+                    x=>{
+                        return <MenuItem key={x} style={{display: 'flex', width: '100%'}} onClick={() => addClass(x)}>
+                                <div style={{width: "90%"}}>
+                                    <Chip
+                                        label={<h4>{x}</h4>}
+                                        style={{paddingTopBottom:'8px'}}
+                                    />
+                                </div>
+                                <Typography style={{alignSelf: "flex-end"}}>Add</Typography>
+                            </MenuItem>;
                     }
                 )}
-
-
-
+                </div>
             </Modal>
-        </div>
+        </React.Fragment>
     );
 }
 
