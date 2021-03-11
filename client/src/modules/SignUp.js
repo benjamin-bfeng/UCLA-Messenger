@@ -3,39 +3,10 @@ import {
   Button,
   Link,
   Typography,
-  Paper,
-  Card,
-  CardContent,
-  Input,
-  makeStyles,
 } from '@material-ui/core';
 import registrationService from '../services/register';
 import userService from '../services/users';
 import TextField from "@material-ui/core/TextField";
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    backgroundColor: '#F7AA14',
-    padding: theme.spacing(2, 3),
-    textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-  },
-  cardRoot: {
-    width: '80%',
-    minHeight: '400px',
-    height: '60%',
-  },
-  cardContent: {
-    display: 'absolute',
-    alignItems: 'center',
-  },
-  contentWidth: {
-    width: '60%',
-  },
-}));
 
 const SignUp = ({authenticate}) => {
   const [name, setName] = React.useState('');
@@ -43,7 +14,6 @@ const SignUp = ({authenticate}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [signedUp,setSignedUp] = React.useState(false);
-  const classes = useStyles();
 
   const handleRegister = async () => {
     const registrationInfo = {

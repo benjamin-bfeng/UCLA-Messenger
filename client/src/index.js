@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import './index.css';
 
+import Home from './modules/Home';
+
 import SignUp from './modules/SignUp';
 import Login from './modules/Login';
 
@@ -26,6 +28,9 @@ const App = () => {
     <Router>
       <Switch>
         <Route exact path='/'>
+          <Home/>
+        </Route>
+        <Route path='/login'>
           {(!authed) ?
           <Login authenticate={authenticate}/>
           : <Redirect to="chat"/>}

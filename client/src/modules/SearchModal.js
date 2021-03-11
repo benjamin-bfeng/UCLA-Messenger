@@ -4,13 +4,13 @@ import Modal from 'react-modal';
 import {listOfCsClassesUndergrad, listOfBeClassesUndergrad,listOfChEClassesUndergrad,
     listOfCNEEClassesUndergrad,listOfECEClassesUndergrad,listOfEngClassesUndergrad,
     listOfMatSciClassesUndergrad,listOfMNEClassesUndergrad} from './localData';
+import MenuItem from "@material-ui/core/MenuItem";
 import Chip from "@material-ui/core/Chip";
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import {useFetchChatList} from "./useFetchChatList";
 import axios from "axios";
-import MenuItem from "@material-ui/core/MenuItem";
 
 const listClasses = listOfCsClassesUndergrad.map(function(x){return "CS "+x;})
     .concat(listOfBeClassesUndergrad.map(function(x){return "BIO ENG "+x;}))
@@ -68,7 +68,7 @@ const SearchModal = ({handleChange}) => {
 
 
     return (
-        <div>
+        <React.Fragment>
             <Button
                 variant="contained"
                 color="primary"
@@ -133,7 +133,7 @@ const SearchModal = ({handleChange}) => {
                     )}
                 </div>
             </Modal>
-            </div>
+            </React.Fragment>
     );
 }
 
