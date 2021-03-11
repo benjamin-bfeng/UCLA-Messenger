@@ -29,8 +29,6 @@ chatRouter.post('/message/:id', async (request, response) => {
   msgArr.push(msgObj.id);
   await Chat.findByIdAndUpdate(chat.id, { messages: msgArr });
 
-  io.emit('message', msgObj);
-  response.json(msgObj);
 });
 
 // get chat object

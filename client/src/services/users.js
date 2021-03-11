@@ -44,4 +44,18 @@ const updateUserData = async (id, newObject) => {
   return response.data;
 };
 
-export default { getToken, setToken, getUser, updateUserData };
+const updateUserCourses = async (id, newArray) => {
+  console.log(token);
+  const config = {
+    headers: {
+      token: token,
+    },
+  };
+
+  const newObject = {courses: newArray};
+  const response = await axios.put(`${baseUrl}/${id}`, newObject, config);
+
+  return response.data;
+};
+
+export default { getToken, setToken, getUser, updateUserData ,updateUserCourses};

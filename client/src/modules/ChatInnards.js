@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -13,9 +13,12 @@ import Tooltip from '@material-ui/core/Tooltip';
 import LikeButton from './LikeButton';
 import SearchModal from './SearchModal';
 import DisplayProfile from "./DisplayProfile";
+import userServices from '../services/users'
+import axios from "axios";
 
 import { CTX } from './Store';
 import '../index.css';
+import {useFetchProfile} from "./useFetchProfile";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -62,14 +65,14 @@ const ChatInnards = () => {
 
   // CTX store
   const { allChats, sendChatAction, user } = React.useContext(CTX);
-  const topics = Object.keys(allChats);
+  let topics = Object.keys(allChats);
 
   // local state
   const [activeTopic, changeActiveTopic] = React.useState(topics[0]);
-  console.log("Chat topic set to: ",topics[0]);
+  const [activeID,setActiveID] = React.useState("");
   const [textValue, changeTextValue] = React.useState('');
   const [participatingChats, setChats] = React.useState([]);
-
+  const [loaded,setLoaded] = React.useState(true);
   const addChats = array => {
     let result_array = [];
     let arr = participatingChats.concat(array);
@@ -79,13 +82,28 @@ const ChatInnards = () => {
     while (len--) {
       let item = arr[len];
 
-      if (!assoc[item]) {
+      if (!assoc[item._id]) {
         result_array.unshift(item);
-        assoc[item] = true;
+        assoc[item._id] = true;
       }
     }
     setChats(result_array);
+    if(loaded)
+    {
+      axios.get('http://localhost:3001/api/users/' + user).then(response => {
+        const id = response.data.id;
+        const currentCourses = response.data.courses;
+        console.log(currentCourses);
+        const newArray = participatingChats.map(x => {
+          return x._id
+        });
+        const concatArray = currentCourses.concat(newArray);
+        console.log(concatArray);
+        userServices.updateUserCourses(id, concatArray);
+      })
+    }
   };
+
 
   return (
     <div>
@@ -98,12 +116,12 @@ const ChatInnards = () => {
           {activeTopic}
         </Typography>
         <div className={classes.modal}>
-          <SearchModal handleChange={addChats} />
+          <SearchModal handleChange={addChats}/>
         </div>
         <div className={classes.flex}>
           <div className={classes.topicsWindow}>
             <List>
-              {participatingChats.map(topic => (
+              {topics.map(topic => (
                 <ListItem
                   onClick={e => changeActiveTopic(e.target.innerText)}
                   key={topic}
@@ -148,7 +166,6 @@ const ChatInnards = () => {
                 chat: activeTopic,
               });
               changeTextValue('');
-              console.log(textValue);
             }}
           >
             Send

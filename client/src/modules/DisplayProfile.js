@@ -146,17 +146,6 @@ const DisplayProfile = ({username,currentUser}) => {
         }
     };
 
-    //TODO: Fix img upload
-    function fileUploadHandler() {
-        const fd = new FormData();
-        fd.append('picture', file, profile['id']);
-        //http://localhost:3001/api/users/image/:id
-        axios
-            .put('http://localhost:3001/api/users/image/' + profile['id'], fd)
-            .then(response => {
-                console.log(response);
-            });
-    }
     return(<>
         <Button
             variant="contained"
