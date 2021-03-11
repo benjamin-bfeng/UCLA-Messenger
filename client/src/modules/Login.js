@@ -1,12 +1,7 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   Button,
-  Link,
   Typography,
-  Paper,
-  Card,
-  CardContent,
-  Input,
   makeStyles,
 } from '@material-ui/core';
 import loginService from '../services/login';
@@ -112,7 +107,9 @@ const Login = ({authenticate}) => {
                     onClick={handleLogin}
                 ><p style={{letterSpacing: 3}}>LOG IN</p></Button>
         )}
-          <p>Don't have an Account?</p>
+          <Typography>
+            <p>Don't have an Account?</p>
+          </Typography>
           <Button
               variant="contained"
               color="default"
