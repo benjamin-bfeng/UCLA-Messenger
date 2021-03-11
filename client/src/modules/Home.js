@@ -11,8 +11,9 @@ const Home=()=> {
         <Typography variant={'h1'} style={{textTransform: "uppercase", textShadow: "3px 3px #008CBA, -1px -1px #008CBA, 1px -1px #008CBA, -1px 1px #008CBA"}}>
           <b>Bruinchat</b>
         </Typography>
-        <Typography variant={'h5'}>
-          <a href="https://github.com/benjamin-bfeng/BruinChat">A CS 97 Project</a>
+        <Typography variant={'h4'} style={{color: "white"}}>
+          <a href="https://github.com/benjamin-bfeng/BruinChat" style={{color: "white"}}>A CS 97 Project</a>
+          <p>BruinChat is a messaging app for UCLA classes using React.js, Express.js, and MongoDB</p>
         </Typography>
         <div style={{display: 'flex', align: 'center', margin: '10%'}}>
           <Button
