@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -13,9 +13,12 @@ import Tooltip from '@material-ui/core/Tooltip';
 import LikeButton from './LikeButton';
 import SearchModal from './SearchModal';
 import DisplayProfile from "./DisplayProfile";
+import userServices from '../services/users'
+import axios from "axios";
 
 import { CTX } from './Store';
 import '../index.css';
+import {useFetchProfile} from "./useFetchProfile";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,11 +30,6 @@ const useStyles = makeStyles(theme => ({
   flex: {
     display: 'flex',
     alignItems: 'center',
-  },
-  message: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '2px',
   },
   topicsWindow: {
     width: '30%',
@@ -61,49 +59,48 @@ const ChatInnards = () => {
   const classes = useStyles();
 
   // CTX store
-  const { allChats, sendChatAction, user } = React.useContext(CTX);
-  const topics = Object.keys(allChats);
+  const { allChats, sendChatAction, addChatAction, user, loaded } = React.useContext(CTX);
+  let topics = Object.keys(allChats);
 
   // local state
   const [activeTopic, changeActiveTopic] = React.useState(topics[0]);
-  console.log("Chat topic set to: ",topics[0]);
   const [textValue, changeTextValue] = React.useState('');
-  const [participatingChats, setChats] = React.useState([]);
-
   const addChats = array => {
-    let result_array = [];
-    let arr = participatingChats.concat(array);
-    let len = arr.length;
-    let assoc = {};
+    addChatAction(array);
 
-    while (len--) {
-      let item = arr[len];
-
-      if (!assoc[item]) {
-        result_array.unshift(item);
-        assoc[item] = true;
-      }
-    }
-    setChats(result_array);
   };
 
-  return (
+
+  return ( (loaded) ?
     <div>
+    <div style={{textAlign: 'right'}}>
+      <DisplayProfile
+          username={user}
+          currentUser={user}
+          overRideStyle={false}/>
+      <Button
+          color="default"
+          style={{backgroundColor: "#acaaaa",
+                  marginLeft: '30px',
+                  marginRight: '30px'
+          }}
+          onClick={()=>window.location.reload()}
+      >Logout</Button>
+    </div>
       <Paper className={classes.root} elevation={1}>
         <Typography variant={'h4'} component={'h4'}>
           Bruin Chat
         </Typography>
-        <DisplayProfile username={user} currentUser={user}/>
         <Typography variant={'h5'} component={'h5'}>
           {activeTopic}
         </Typography>
         <div className={classes.modal}>
-          <SearchModal handleChange={addChats} />
+          <SearchModal handleChange={addChats}/>
         </div>
         <div className={classes.flex}>
           <div className={classes.topicsWindow}>
             <List>
-              {participatingChats.map(topic => (
+              {topics.map(topic => (
                 <ListItem
                   onClick={e => changeActiveTopic(e.target.innerText)}
                   key={topic}
@@ -116,15 +113,24 @@ const ChatInnards = () => {
           </div>
           <div className={classes.chatWindow}>
             {allChats[activeTopic].map((chat, index) => (
-              <div className={classes.message} key={index}>
-                <Tooltip title={chat.user} placement="left">
+              <div className={'message push'} key={index}>
                   <Chip
                     variant={'outlined'}
-                    avatar={<Avatar src="/static/images/avatar/1.jpg" />}
+                    color={
+                      (typeof chat.user === 'string')
+                          ? (chat.user === user) ? "primary" : "default"
+                          : (chat.user.username === user) ? "primary" : "default"}
+                    avatar={<Avatar
+                        src={ (typeof chat.user === 'object')
+                          ? "http://localhost:3001/api/users/image/"+chat.user.id
+                          :"/static/images/avatar/1.jpg"} />}
                     label={chat.message}
                   />
-                </Tooltip>
-                <LikeButton />
+                <DisplayProfile
+                  username={(typeof chat.user === 'string') ? chat.user : chat.user.username}
+                  currentUser={user}
+                  overRideStyle={true}
+              /><LikeButton user={user} msgId={chat._id}/>
               </div>
             ))}
           </div>
@@ -148,14 +154,13 @@ const ChatInnards = () => {
                 chat: activeTopic,
               });
               changeTextValue('');
-              console.log(textValue);
             }}
           >
             Send
           </Button>
         </div>
       </Paper>
-    </div>
+    </div> : <div>loading</div>
   );
 };
 

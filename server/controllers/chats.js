@@ -1,6 +1,4 @@
 var app = require('../index.js');
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
 
 const chatRouter = require('express').Router();
 const { request, response } = require('express');
@@ -8,22 +6,6 @@ const { findByIdAndDelete, findByIdAndRemove } = require('../models/chat');
 const Chat = require('../models/chat');
 const Message = require('../models/message');
 const User = require('../models/user');
-
-io.on('connection', socket => {
-    console.log('Socket is connected...');
-
-    socket.on('chat message', function(msg) {
-        const message = new Message(msg.data);
-        const msgObj = message.save();
-
-        const chat = Chat.findById(socket.handshake.query['id']);
-        msgArr = chat.messages;
-        msgArr.push(msgObj.id);
-        Chat.findByIdAndUpdate(chat.id, { messages: msgArr });
-
-        io.emit('message', msgObj);
-    });
-});
 
 // add new user to a chat
 chatRouter.post('/user/:id', async (request, response) => {
@@ -47,8 +29,6 @@ chatRouter.post('/message/:id', async (request, response) => {
   msgArr.push(msgObj.id);
   await Chat.findByIdAndUpdate(chat.id, { messages: msgArr });
 
-  io.emit('message', msgObj);
-  response.json(msgObj);
 });
 
 // get chat object
@@ -79,7 +59,9 @@ chatRouter.post('/', async (request, response) => {
 chatRouter.get('/', async (request, response) => {
   const chats = await Chat.find({})
     .populate({ path: 'users', select: 'name username' })
-    .populate({ path: 'messages', select: 'message' });
+    .populate({ path: 'messages', select: 'message',
+        populate: {path: 'user', select: 'username'}
+    });
   response.json(chats);
 });
 

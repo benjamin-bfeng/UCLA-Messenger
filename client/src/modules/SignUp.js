@@ -103,6 +103,7 @@ const SignUp = ({authenticate}) => {
                     height: '10%',
                     borderRadius: 20
                   }}
+                  onClick={handleRegister}
               ><h2>SIGN UP</h2></Button>
           )}
 

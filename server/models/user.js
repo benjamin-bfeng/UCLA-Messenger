@@ -5,9 +5,9 @@ const uniqueValidator = require('mongoose-unique-validator');
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   username: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   picture: { type: String, default: 'default.jpg' },
-  //picture: { data: Buffer, contentType: String },
   role: { type: String, default: 'Student' },
   bio: { type: String, default: 'Introduce yourself!' },
   courses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }],

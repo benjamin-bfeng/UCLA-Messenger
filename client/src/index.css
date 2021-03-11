@@ -125,3 +125,9 @@ div::-webkit-scrollbar-button {
     height: 100%;
     font-weight: bold;
 }
+.message{
+    display: flex;
+    align-items: center;
+    padding: 2px;
+}
+

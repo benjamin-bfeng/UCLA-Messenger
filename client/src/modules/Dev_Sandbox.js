@@ -1,86 +1,36 @@
 import React from 'react';
 import '../index.css';
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import {Link} from "react-router-dom";
+import axios from "axios";
+import {
+    listOfBeClassesUndergrad,
+    listOfChEClassesUndergrad,
+    listOfCNEEClassesUndergrad,
+    listOfCsClassesUndergrad,
+    listOfECEClassesUndergrad,
+    listOfEngClassesUndergrad,
+    listOfMatSciClassesUndergrad,
+    listOfMNEClassesUndergrad
+} from "./localData";
 
+
+const listClasses = listOfCsClassesUndergrad.map(function(x){return "CS "+x;})
+    .concat(listOfBeClassesUndergrad.map(function(x){return "BIO ENG "+x;}))
+    .concat(listOfChEClassesUndergrad.map(function(x){return "CHEM ENG "+x;}))
+    .concat(listOfCNEEClassesUndergrad.map(function(x){return "C&EE "+x;}))
+    .concat(listOfECEClassesUndergrad.map(function(x){return "ECE "+x;}))
+    .concat(listOfEngClassesUndergrad.map(function(x){return "ENG "+x;}))
+    .concat(listOfMatSciClassesUndergrad.map(function(x){return "MAT SCI "+x;}))
+    .concat(listOfMNEClassesUndergrad.map(function(x){return "MECH&AE "+x;}));
 
 
 const Test = () => {
-
+/*    for (let i = 0; i < listClasses.length;i++)
+    {axios.post('http://localhost:3001/api/chats',
+            {name: listClasses[i]
+            })};*/
     return (
         <div>
-            <div className={'login-box'}>
-                <div style={{height: '8%'}}></div>
-                <div>
-                    <Typography variant={'h4'}>BRUIN CHAT</Typography>
-                    <div style={{paddingTop:20}}><TextField
-                        id="outlined-full-width"
-                        label="Name"
-                        style={{ margin: 8 }}
-                        placeholder="Joe"
-                        margin="normal"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
-                    /></div>
-                    <div><TextField
-                        id="outlined-full-width"
-                        label="Username"
-                        style={{ margin: 8 }}
-                        placeholder="Username"
-                        margin="normal"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
-                    /></div>
-                    <div><TextField
-                        id="outlined-full-width"
-                        label="Email"
-                        style={{ margin: 8 }}
-                        placeholder="joe@ucla.edu"
-                        margin="normal"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
-                    /></div>
-                    <div style={{paddingBottom:15}}><TextField
-                         id="outlined-full-width"
-                         label="Password"
-                         style={{ margin: 8 }}
-                         placeholder="************"
-                         margin="normal"
-                         InputLabelProps={{
-                             shrink: true,
-                         }}
-                         variant="outlined"
-                         type={"password"}
-                    /></ div>
-                </div>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    style={{
-                        backgroundColor: '#daa522',
-                        width: '40%',
-                        height: '10%',
-                        borderRadius: 20
-                    }}
-                ><h2>SIGN UP</h2></Button>
-                <div><Link
-                    href={'/login'}
-                    style={{
-                        backgroundColor:'inherit',
-                        color: '#3287BE',
-                        paddingTop: 7
-                    }}
-                >back to login</Link>
-                </div>
-            </div>
+            Test
         </div>
     );
 }

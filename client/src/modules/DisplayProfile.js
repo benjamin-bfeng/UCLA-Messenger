@@ -74,7 +74,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const DisplayProfile = ({username,currentUser}) => {
+const DisplayProfile = ({username,currentUser,overRideStyle}) => {
     const classes = useStyles();
     const [modal,setModal] = useState(false);
     const url = 'http://localhost:3001/api/users/' + username;
@@ -146,26 +146,27 @@ const DisplayProfile = ({username,currentUser}) => {
         }
     };
 
-    //TODO: Fix img upload
-    function fileUploadHandler() {
-        const fd = new FormData();
-        fd.append('picture', file, profile['id']);
-        //http://localhost:3001/api/users/image/:id
-        axios
-            .put('http://localhost:3001/api/users/image/' + profile['id'], fd)
-            .then(response => {
-                console.log(response);
-            });
-    }
     return(<>
-        <Button
+        {(username === currentUser && !overRideStyle) ? <Button
             variant="contained"
             color="primary"
             className={classes.button}
             onClick={()=>setModal(true)}
         >
-            See Profile
-        </Button>
+            See Your Profile
+        </Button> :
+            <button
+                onClick={()=>setModal(true)}
+                style={{
+                    backgroundColor: 'inherit',
+                    cursor: 'pointer',
+                    border: 'none',
+                    color: '#838181'
+                }}
+            >
+                {username}
+            </button>
+        }
         <Modal
             ariaHideApp={false}
         isOpen={modal}
