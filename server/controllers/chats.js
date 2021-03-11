@@ -1,6 +1,4 @@
 var app = require('../index.js');
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
 
 const chatRouter = require('express').Router();
 const { request, response } = require('express');
@@ -8,10 +6,6 @@ const { findByIdAndDelete, findByIdAndRemove } = require('../models/chat');
 const Chat = require('../models/chat');
 const Message = require('../models/message');
 const User = require('../models/user');
-
-io.on('connection', socket => {
-  console.log('Socket is connected...');
-});
 
 // add new user to a chat
 chatRouter.post('/user/:id', async (request, response) => {
@@ -25,6 +19,7 @@ chatRouter.post('/user/:id', async (request, response) => {
 });
 
 // add a new message to a chat
+// Looku up
 chatRouter.post('/message/:id', async (request, response) => {
   const message = new Message(request.body);
   const msgObj = await message.save();
@@ -34,8 +29,6 @@ chatRouter.post('/message/:id', async (request, response) => {
   msgArr.push(msgObj.id);
   await Chat.findByIdAndUpdate(chat.id, { messages: msgArr });
 
-  io.emit('message', msgObj);
-  response.json(msgObj);
 });
 
 // get chat object
@@ -65,8 +58,10 @@ chatRouter.post('/', async (request, response) => {
 // get all chats
 chatRouter.get('/', async (request, response) => {
   const chats = await Chat.find({})
-    .populate({ path: 'users', select: 'name' })
-    .populate({ path: 'messages', select: 'message' });
+    .populate({ path: 'users', select: 'name username' })
+    .populate({ path: 'messages', select: 'message',
+        populate: {path: 'user', select: 'username'}
+    });
   response.json(chats);
 });
 
@@ -75,5 +70,27 @@ chatRouter.delete('/chat/:id', async (request, response) => {
   await Chat.findByIdAndDelete(request.params.id);
   response.sendStatus(200);
 });
+
+// add like
+chatRouter.put('/chat/like/:id', async (request, resposne) => {
+    const chat = await Chat.findById(request.params.id);
+    likeArr = chat.likes;
+    if (likeArr.includes(request.body.user)) {
+        likeArr.push(request.body.user);
+    }
+    await Chat.findByIdAndUpdate(request.params.id, { likes: likeArr });
+    response.sendStatus(200);
+})
+
+//remove like
+chatRouter.put('/chat/like/:id', async (request, resposne) => {
+    const chat = await Chat.findById(request.params.id);
+    likeArr = chat.likes;
+    if (likeArr.includes(request.body.user)) {
+        likeArr.remove(request.body.user);
+    }
+    await Chat.findByIdAndUpdate(request.params.id, { likes: likeArr });
+    response.sendStatus(200);
+})
 
 module.exports = chatRouter;

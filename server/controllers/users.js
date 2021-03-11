@@ -137,9 +137,15 @@ usersRouter.get('/:username', async (req, res) => {
 // });
 
 // updated user by id at /api/users/:id
-usersRouter.put('/:id', async (request, response) => {
+usersRouter.put('/:id', auth, async (request, response) => {
+  // try {
   const body = request.body;
+  if (request.params.id !== request.user.id) {
+    console.log('error!');
+    throw Error;
+  }
   const user = await User.findById(request.params.id);
+  console.log(request.user);
 
   // if user wants to delete a chat (new list of courses
   // differs from old list of courses)
@@ -172,12 +178,17 @@ usersRouter.put('/:id', async (request, response) => {
       }),
     );
   };
-  const updatedCourses = await getCourseIds();
-  await removeUserFromChats(JSON.stringify(updatedCourses));
+
+  // if user specifies courses in the put request
+  if (body.courses) {
+    const updatedCourses = await getCourseIds();
+    await removeUserFromChats(JSON.stringify(updatedCourses));
+    body.courses = updatedCourses;
+  }
 
   const updatedUser = await User.findByIdAndUpdate(
     request.params.id,
-    { ...body, courses: updatedCourses },
+    { ...body },
     {
       new: true,
       context: 'query',
@@ -186,6 +197,11 @@ usersRouter.put('/:id', async (request, response) => {
   );
 
   response.json(updatedUser);
+  // } catch (err) {
+  //   response
+  //     .status(500)
+  //     .send({ message: 'No permission to edit this profile' });
+  // }
 });
 
 // delete user by id at /api/users/:id
