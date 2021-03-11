@@ -74,7 +74,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const DisplayProfile = ({username,currentUser}) => {
+const DisplayProfile = ({username,currentUser,overRideStyle}) => {
     const classes = useStyles();
     const [modal,setModal] = useState(false);
     const url = 'http://localhost:3001/api/users/' + username;
@@ -147,14 +147,26 @@ const DisplayProfile = ({username,currentUser}) => {
     };
 
     return(<>
-        <Button
+        {(username === currentUser && !overRideStyle) ? <Button
             variant="contained"
             color="primary"
             className={classes.button}
             onClick={()=>setModal(true)}
         >
-            See Profile
-        </Button>
+            See Your Profile
+        </Button> :
+            <button
+                onClick={()=>setModal(true)}
+                style={{
+                    backgroundColor: 'inherit',
+                    cursor: 'pointer',
+                    border: 'none',
+                    color: '#838181'
+                }}
+            >
+                {username}
+            </button>
+        }
         <Modal
             ariaHideApp={false}
         isOpen={modal}

@@ -57,7 +57,7 @@ const SearchModal = ({handleChange}) => {
     },[])
 
     useEffect(()=>{
-        handleChange(addedClasses);
+        handleChange(addedClasses.map(x=>x._id));
     },[addedClasses])
 
     const addClass=(val)=>{

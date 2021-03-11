@@ -31,11 +31,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
   },
-  message: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '2px',
-  },
   topicsWindow: {
     width: '30%',
     height: '300px',
@@ -64,54 +59,38 @@ const ChatInnards = () => {
   const classes = useStyles();
 
   // CTX store
-  const { allChats, sendChatAction, user } = React.useContext(CTX);
+  const { allChats, sendChatAction, addChatAction, user, loaded } = React.useContext(CTX);
   let topics = Object.keys(allChats);
 
   // local state
   const [activeTopic, changeActiveTopic] = React.useState(topics[0]);
-  const [activeID,setActiveID] = React.useState("");
   const [textValue, changeTextValue] = React.useState('');
-  const [participatingChats, setChats] = React.useState([]);
-  const [loaded,setLoaded] = React.useState(true);
   const addChats = array => {
-    let result_array = [];
-    let arr = participatingChats.concat(array);
-    let len = arr.length;
-    let assoc = {};
+    addChatAction(array);
 
-    while (len--) {
-      let item = arr[len];
-
-      if (!assoc[item._id]) {
-        result_array.unshift(item);
-        assoc[item._id] = true;
-      }
-    }
-    setChats(result_array);
-    if(loaded)
-    {
-      axios.get('http://localhost:3001/api/users/' + user).then(response => {
-        const id = response.data.id;
-        const currentCourses = response.data.courses;
-        console.log(currentCourses);
-        const newArray = participatingChats.map(x => {
-          return x._id
-        });
-        const concatArray = currentCourses.concat(newArray);
-        console.log(concatArray);
-        userServices.updateUserCourses(id, concatArray);
-      })
-    }
   };
 
 
-  return (
+  return ( (loaded) ?
     <div>
+    <div style={{textAlign: 'right'}}>
+      <DisplayProfile
+          username={user}
+          currentUser={user}
+          overRideStyle={false}/>
+      <Button
+          color="default"
+          style={{backgroundColor: "#acaaaa",
+                  marginLeft: '30px',
+                  marginRight: '30px'
+          }}
+          onClick={()=>window.location.reload()}
+      >Logout</Button>
+    </div>
       <Paper className={classes.root} elevation={1}>
         <Typography variant={'h4'} component={'h4'}>
           Bruin Chat
         </Typography>
-        <DisplayProfile username={user} currentUser={user}/>
         <Typography variant={'h5'} component={'h5'}>
           {activeTopic}
         </Typography>
@@ -134,15 +113,24 @@ const ChatInnards = () => {
           </div>
           <div className={classes.chatWindow}>
             {allChats[activeTopic].map((chat, index) => (
-              <div className={classes.message} key={index}>
-                <Tooltip title={chat.user} placement="left">
+              <div className={'message push'} key={index}>
                   <Chip
                     variant={'outlined'}
-                    avatar={<Avatar src="/static/images/avatar/1.jpg" />}
+                    color={
+                      (typeof chat.user === 'string')
+                          ? (chat.user === user) ? "primary" : "default"
+                          : (chat.user.username === user) ? "primary" : "default"}
+                    avatar={<Avatar
+                        src={ (typeof chat.user === 'object')
+                          ? "http://localhost:3001/api/users/image/"+chat.user.id
+                          :"/static/images/avatar/1.jpg"} />}
                     label={chat.message}
                   />
-                </Tooltip>
-                <LikeButton />
+                <DisplayProfile
+                  username={(typeof chat.user === 'string') ? chat.user : chat.user.username}
+                  currentUser={user}
+                  overRideStyle={true}
+              /><LikeButton user={user} msgId={chat._id}/>
               </div>
             ))}
           </div>
@@ -172,7 +160,7 @@ const ChatInnards = () => {
           </Button>
         </div>
       </Paper>
-    </div>
+    </div> : <div>loading</div>
   );
 };
 

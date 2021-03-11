@@ -105,3 +105,10 @@ a:hover, a:active {
     background-color: white;
     border-radius: 30px;
 }
+
+.message{
+    display: flex;
+    align-items: center;
+    padding: 2px;
+}
+
