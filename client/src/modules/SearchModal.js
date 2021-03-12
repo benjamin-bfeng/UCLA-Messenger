@@ -1,35 +1,12 @@
-import React, {Component, useEffect, useRef, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import '../index.css';
 import Modal from 'react-modal';
-import {listOfCsClassesUndergrad, listOfBeClassesUndergrad,listOfChEClassesUndergrad,
-    listOfCNEEClassesUndergrad,listOfECEClassesUndergrad,listOfEngClassesUndergrad,
-    listOfMatSciClassesUndergrad,listOfMNEClassesUndergrad} from './localData';
 import MenuItem from "@material-ui/core/MenuItem";
 import Chip from "@material-ui/core/Chip";
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import {useFetchChatList} from "./useFetchChatList";
 import axios from "axios";
-
-const listClasses = listOfCsClassesUndergrad.map(function(x){return "CS "+x;})
-    .concat(listOfBeClassesUndergrad.map(function(x){return "BIO ENG "+x;}))
-    .concat(listOfChEClassesUndergrad.map(function(x){return "CHEM ENG "+x;}))
-    .concat(listOfCNEEClassesUndergrad.map(function(x){return "C&EE "+x;}))
-    .concat(listOfECEClassesUndergrad.map(function(x){return "ECE "+x;}))
-    .concat(listOfEngClassesUndergrad.map(function(x){return "ENG "+x;}))
-    .concat(listOfMatSciClassesUndergrad.map(function(x){return "MAT SCI "+x;}))
-    .concat(listOfMNEClassesUndergrad.map(function(x){return "MECH&AE "+x;}));
-
-console.log(listClasses.length);
-
-
-const initState={};
-
-for (let i =0; i< listClasses.length; i++)
-{
-    initState[listClasses[i]] =[];
-}
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -51,7 +28,6 @@ const SearchModal = ({handleChange}) => {
                 (response) => {
                     const data = response.data.slice(0,435).map(({ name, _id }) => ({name, _id}));
                     setApiClasses(data);
-                    console.log(apiClasses);
                 }
             );
     },[])
@@ -74,6 +50,10 @@ const SearchModal = ({handleChange}) => {
                 color="primary"
                 className={classes.button}
                 onClick={()=>setModal(true)}
+                style={{
+                    backgroundColor: '#3287BE',
+                    color: "white"
+                }}
             >
                 Add Class
             </Button>

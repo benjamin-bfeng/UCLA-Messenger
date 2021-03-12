@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import defProfPic from "./assets/defProf.jpg";
 
 export const useFetchProfile = (url) => {
     const [loading, setLoading] = useState(true);

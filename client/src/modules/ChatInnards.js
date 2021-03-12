@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
@@ -9,16 +9,13 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
-import Tooltip from '@material-ui/core/Tooltip';
 import LikeButton from './LikeButton';
 import SearchModal from './SearchModal';
 import DisplayProfile from "./DisplayProfile";
-import userServices from '../services/users'
-import axios from "axios";
+import logo from "./assets/logo.png"
 
-import { CTX } from './Store';
+import {CTX} from './Store';
 import '../index.css';
-import {useFetchProfile} from "./useFetchProfile";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,13 +30,13 @@ const useStyles = makeStyles(theme => ({
   },
   topicsWindow: {
     width: '30%',
-    height: '300px',
+    height: '500px',
     borderRight: '1px solid grey',
     overflowY: 'auto',
   },
   chatWindow: {
     width: '70%',
-    height: '300px',
+    height: '500px',
     padding: '20px',
     overflowY: 'auto',
   },
@@ -60,7 +57,7 @@ const ChatInnards = () => {
 
   // CTX store
   const { allChats, sendChatAction, addChatAction, user, loaded } = React.useContext(CTX);
-  let topics = Object.keys(allChats);
+  const topics = Object.keys(allChats);
 
   // local state
   const [activeTopic, changeActiveTopic] = React.useState(topics[0]);
@@ -88,9 +85,12 @@ const ChatInnards = () => {
       >Logout</Button>
     </div>
       <Paper className={classes.root} elevation={1}>
-        <Typography variant={'h4'} component={'h4'}>
-          Bruin Chat
-        </Typography>
+        <img src={logo} alt={"logo"}
+            style={{
+              width: "35%",
+              height: "35%"
+            }}
+        />
         <Typography variant={'h5'} component={'h5'}>
           {activeTopic}
         </Typography>
@@ -145,6 +145,10 @@ const ChatInnards = () => {
             onChange={e => changeTextValue(e.target.value)}
           />
           <Button
+              style={{
+                backgroundColor: '#3287BE',
+
+              }}
             variant="contained"
             color="primary"
             onClick={() => {

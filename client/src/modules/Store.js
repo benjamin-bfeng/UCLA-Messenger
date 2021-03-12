@@ -1,8 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import io from 'socket.io-client'
-import {listOfCsClassesUndergrad, listOfBeClassesUndergrad,listOfChEClassesUndergrad,
-    listOfCNEEClassesUndergrad,listOfECEClassesUndergrad,listOfEngClassesUndergrad,
-    listOfMatSciClassesUndergrad,listOfMNEClassesUndergrad} from './localData'
 import axios from "axios";
 import userServices from '../services/users';
 
@@ -16,8 +13,7 @@ let nameIdDict={
 }
 
 function reducer(state, action){
-    const {user,message,chat,id,loaded} = action.payload;
-
+    const {user,message,chat,id,chatName,...rest} = action.payload;
     switch(action.type)
     {
         case 'RECEIVE_MESSAGE':
@@ -29,7 +25,9 @@ function reducer(state, action){
                 ]
             };
         case 'LOADED':
-            return{...state}
+            return{...state};
+        case 'NEW_CHAT':
+            return{...state, [chatName]: []}
         default:
             return state;
 
@@ -39,12 +37,10 @@ function reducer(state, action){
 let socket;
 
 function sendChatAction(value){
-    console.log("iddddddddd",value.id)
     let userId = null;
     axios.get('http://localhost:3001/api/users/' + value.user)
         .then(response => {
             userId=response.data.id;
-            console.log(nameIdDict[value.chat]);
             const msgObj ={
                 user: userId,
                 message: value.message,
@@ -52,7 +48,6 @@ function sendChatAction(value){
                 };
                 axios.post('http://localhost:3001/api/chats/message/'+nameIdDict[value.chat],
                     msgObj).then(response => {
-                    console.log(initState);
                 });
         }
             )
@@ -66,34 +61,35 @@ export default function Store(props){
     const [loaded,setLoaded]=useState(false);
     const [courses,setCourses] = useState([]);
     const [allChats, dispatch] = React.useReducer(reducer,initState);
-    console.log("props: ", props);
+    const [newChat,setNewChat] = React.useState(false);
     useEffect(()=>{
-        axios.get('http://localhost:3001/api/chats')
-            .then(response=> {
-                const chatData = response.data.slice(0, 435);
-                axios.get('http://localhost:3001/api/users/' + user)
-                    .then(response => {
-                        const userCourses = response.data.courses;
-                        console.log(chatData);
-                        console.log(userCourses);
-                        setCourses(userCourses);
-                        for (let i = 0; i < userCourses.length;i++)
-                        {
-                            let temp;
-                            temp = chatData.find(x=>x._id===userCourses[i]);
-                            console.log(temp);
-                            initState[temp.name]=temp.messages;
-                            console.log(initState);
-                            nameIdDict[temp.name]=temp._id;
-                        }
-                        setLoaded(true);
-                        dispatch({type:'LOADED',payload: loaded});
-                    });
-            })
-    },[]);
+        if(!loaded)
+        {
+            axios.get('http://localhost:3001/api/chats')
+                .then(response => {
+                    const chatData = response.data.slice(0, 435);
+                    axios.get('http://localhost:3001/api/users/' + user)
+                        .then(response => {
+                            const userCourses = response.data.courses;
+                            setCourses(userCourses);
+                            for (let i = 0; i < userCourses.length; i++) {
+                                let temp;
+                                temp = chatData.find(x => x._id === userCourses[i]);
+                                initState[temp.name] = temp.messages;
+                                nameIdDict[temp.name] = temp._id;
+                            }
+                            setLoaded(true);
+                            dispatch({type: 'LOADED', payload: loaded});
+                        });
+                })
+        }
+        else{
+
+        }
+    },[courses]);
     function addChatAction(val)
     {
-        console.log(val,courses);
+        setNewChat(true);
         let result_array = [];
         let arr = courses.concat(val);
         let len = arr.length;
@@ -113,24 +109,26 @@ export default function Store(props){
                 axios.get('http://localhost:3001/api/chats/chat/'+result_array[i])
                     .then(response=>{
                         putArray.push(response.data.name)
+                        if(result_array[i]===val[0]){
+                            const chatData = response.data;
+                            const chatName = chatData.name;
+                            const chatMessages = chatData.messages;
+                            nameIdDict[chatData.name] = chatData._id;
+                            dispatch({type: 'NEW_CHAT', payload: {chatName,chatMessages}});
+                        }
                         if(putArray.length===result_array.length) {
                             axios.get('http://localhost:3001/api/users/' + user).then(response => {
                                 const id = response.data.id;
-                                console.log(id);
-                                console.log(putArray);
                                 userServices.updateUserCourses(id, putArray);
                                 setCourses(result_array);
-                                alert("You have added a new course, Please log out and log back in to participate");
                             });
                         }
                     });
 
             }
         }
-
-
-
     }
+
 
     if(!socket){
         socket = io(':3002');
