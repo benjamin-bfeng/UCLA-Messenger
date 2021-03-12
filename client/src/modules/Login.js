@@ -2,44 +2,18 @@ import React from 'react';
 import {
   Button,
   Typography,
-  makeStyles,
 } from '@material-ui/core';
 import loginService from '../services/login';
 import userService from '../services/users';
 import TextField from "@material-ui/core/TextField";
 import {useHistory} from 'react-router-dom';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    backgroundColor: '#F7AA14',
-    padding: theme.spacing(2, 3),
-    textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-  },
-  cardRoot: {
-    width: '80%',
-    minHeight: '400px',
-    height: '60%',
-  },
-  cardContent: {
-    display: 'absolute',
-    alignItems: 'center',
-  },
-  contentWidth: {
-    width: '60%',
-  },
-}));
-
 const Login = ({authenticate}) => {
   const history = useHistory();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [loggedIn, setLoggedIn] = React.useState(false);
-
-  const classes = useStyles();
+  const [wrongCredentials,setWrongCredentials] = React.useState(false);
 
   const handleLogin = async () => {
     const loginInfo = {
@@ -53,7 +27,7 @@ const Login = ({authenticate}) => {
       userService.setToken(user.token);
       setLoggedIn(true);
     } catch (err) {
-      console.log('Unable to Login');
+      setWrongCredentials(true);
     }
   };
 
@@ -61,6 +35,7 @@ const Login = ({authenticate}) => {
       <div>
         <div className={'login-box'}>
           <div style={{height: '8%'}}></div>
+          { (!wrongCredentials) ?
           <div>
             <Typography variant={'h4'}>BRUIN CHAT</Typography>
             <div style={{paddingTop:30}}><TextField
@@ -92,6 +67,42 @@ const Login = ({authenticate}) => {
                 onChange={e => setPassword(e.target.value)}
             /></ div>
           </div>
+          : <div>
+                <Typography variant={'h4'}>BRUIN CHAT</Typography>
+                <div style={{paddingTop:30}}><TextField
+                    id="outlined-full-width"
+                    label="Username"
+                    style={{ margin: 8 }}
+                    placeholder="Username"
+                    margin="normal"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    variant="outlined"
+                    value={username}
+                    type={'username'}
+                    onChange={e => setUsername(e.target.value)}
+                    error
+                    helperText={"Incorrect Credentials"}
+                /></div>
+                <div style={{paddingBottom:30}}><TextField
+                    id="outlined-full-width"
+                    label="Password"
+                    style={{ margin: 8 }}
+                    placeholder="************"
+                    margin="normal"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    variant="outlined"
+                    type={"password"}
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    error
+                    helperText={"Incorrect Credentials"}
+                /></ div>
+              </div>
+          }
         {loggedIn ?
             authenticate(username) : (
                 <Button
