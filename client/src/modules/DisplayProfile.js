@@ -1,10 +1,9 @@
-import React, { Component, useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import '../index.css';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { useFetchProfile } from './useFetchProfile';
-import axios from 'axios';
+import {useFetchProfile} from './useFetchProfile';
 import Modal from 'react-modal';
 
 import userService from '../services/users';

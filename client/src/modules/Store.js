@@ -1,8 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import io from 'socket.io-client'
-import {listOfCsClassesUndergrad, listOfBeClassesUndergrad,listOfChEClassesUndergrad,
-    listOfCNEEClassesUndergrad,listOfECEClassesUndergrad,listOfEngClassesUndergrad,
-    listOfMatSciClassesUndergrad,listOfMNEClassesUndergrad} from './localData'
 import axios from "axios";
 import userServices from '../services/users';
 

@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
@@ -9,16 +9,12 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
-import Tooltip from '@material-ui/core/Tooltip';
 import LikeButton from './LikeButton';
 import SearchModal from './SearchModal';
 import DisplayProfile from "./DisplayProfile";
-import userServices from '../services/users'
-import axios from "axios";
 
-import { CTX } from './Store';
+import {CTX} from './Store';
 import '../index.css';
-import {useFetchProfile} from "./useFetchProfile";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,7 +56,6 @@ const ChatInnards = () => {
 
   // CTX store
   const { allChats, sendChatAction, addChatAction, user, loaded } = React.useContext(CTX);
-  console.log(allChats);
   const topics = Object.keys(allChats);
 
   // local state
