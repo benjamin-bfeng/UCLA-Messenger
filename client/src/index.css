@@ -108,6 +108,8 @@ div::-webkit-scrollbar-button {
 
 #homepage {
     background-image: url(./modules/assets/campus.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
     position: absolute;
     top: 0;
     left: 0;
