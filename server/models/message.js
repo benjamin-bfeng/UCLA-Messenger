@@ -3,10 +3,11 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const messageSchema = new mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, required: true },
-    chat: { type: mongoose.Schema.Types.ObjectId, required: true },
-    message: { type: String, required: true },
-})
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  chat: { type: mongoose.Schema.Types.ObjectId, ref: 'Chat', required: true },
+  message: { type: String, required: true },
+  likes: [{ type: mongoose.Schema.Types.ObjectId, red: 'User' }],
+});
 
 messageSchema.set('toJSON', {
   transform: (document, returnedObject) => {

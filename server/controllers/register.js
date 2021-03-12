@@ -1,25 +1,28 @@
 const express = require('express');
-const { check, validationResult } = require('express-validator');
+const Validator = require("validator");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
 const User = require('../models/user');
-
+const Chat = require('../models/chat');
 // register a new user at /api/register
 router.post(
   '/',
 
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        errors: errors.array(),
-      });
-    }
-    console.log(req.body);
-    const { name, username, password, courses } = req.body;
+
+    const { name, username, email, password, courses } = req.body;
+    if (!email)
+        return res.status(400).json({
+          message: 'Must Input Email',
+        });
+    if (!Validator.isEmail(email))
+        return res.status(400).json({
+          message: 'Must Input Valid Email',
+        });
+
     try {
       let user = await User.findOne({
         username,
@@ -30,17 +33,46 @@ router.post(
         });
       }
 
+      // convert course strings to their respective ids
+      const getCourseIds = async () => {
+        return Promise.all(
+          courses.map(async course => {
+            const chatId = await Chat.findOne({ name: course });
+
+            return chatId._id;
+          }),
+        );
+      };
+
+      // add users to courses array
+      const updateCoursesArray = async (courses, userId) => {
+        await courses.forEach(async courseId => {
+          console.log(courseId);
+          const chat = await Chat.findById(courseId);
+          console.log(chat);
+          chat.users = chat.users.concat(userId);
+          await chat.save();
+        });
+      };
+      if (courses) {
+        const updatedCourses = await getCourseIds();
+      }
+
       user = new User({
         name,
         username,
+        email,
         password,
-        courses,
+        courses: courses ? updatedCourses : [],
       });
 
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
 
       const savedUser = await user.save();
+      if (courses) {
+        await updateCoursesArray(user.courses, savedUser._id);
+      }
 
       const payload = {
         user: {

@@ -5,12 +5,18 @@ const uniqueValidator = require('mongoose-unique-validator');
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   username: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  courses: [mongoose.Schema.Types.ObjectId],
+  picture: { type: String, default: 'default.jpg' },
+  role: { type: String, default: 'Student' },
+  bio: { type: String, default: 'Introduce yourself!' },
+  courses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }],
 });
 
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id;
+    delete returnedObject._id;
     delete returnedObject.__v;
     delete returnedObject.password;
   },
