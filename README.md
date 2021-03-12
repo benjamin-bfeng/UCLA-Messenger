@@ -1,3 +1,4 @@
+
 # BruinChat
 
 <!-- TABLE OF CONTENTS -->
@@ -7,21 +8,24 @@
 - [About the Project](#about-the-project)
   - [Built With](#built-with)
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
+  - [Frontend](#frontend)
+  - [Backend](#backend)
 - [Usage](#usage)
 - [Contact](#contact)
-- [Acknowledgements](#acknowledgements)
 
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
 
-[insert text about project]
+BruinChat is a messaging app designed for UCLA students to be able to connect with each other and share their thoughts with fellow students in the same class. Students are able to interact with their peers by sending messages, and are able to join different chats corresponding to the courses they are taking. Currently only supports the courses in the School of Engineering.
 
 ### Built With
-
 - [React](https://reactjs.org/)
+- [Material UI](https://material-ui.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [Express.js](https://expressjs.com/)
 - [Node.js](https://nodejs.org/en/)
+- [Socket.io](https://socket.io/)
 
 <!-- GETTING STARTED -->
 
@@ -38,7 +42,7 @@ git clone https://github.com/benjamin-bfeng/BruinChat.git
 Frontend and backend are in the respective `client` and `server` folders,
 and each one is run separately.
 
-## Frontend
+### Frontend
 
 Installing Dependencies
 ```zsh
@@ -52,7 +56,7 @@ npm start
 ```
 while in the `client` folder.
 
-## Backend
+### Backend
 
 Installing Dependencies
 ```zsh
@@ -62,33 +66,35 @@ npm install
 
 Run with
 ```sh
-npm start
+npm run run_server
 ```
 while in the `server` folder.
-### Run
-
-```sh
-npm start
-```
 
 <!-- USAGE EXAMPLES -->
 
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-Probably no documentation
+Login or Signup
+![image](https://user-images.githubusercontent.com/40645885/110919286-edd68700-82d0-11eb-9d60-037c23e0d773.png)
+Homepage
+![image](https://user-images.githubusercontent.com/40645885/110919633-56bdff00-82d1-11eb-9d57-1552b5a9a78e.png)
+Edit Profile
+![image](https://user-images.githubusercontent.com/40645885/110919559-3d1cb780-82d1-11eb-99e3-a25f8af13d26.png)
+Search for and Add Classes
+![image](https://user-images.githubusercontent.com/40645885/110919744-72c1a080-82d1-11eb-9343-dbee97462287.png)
+Like Messages
+![image](https://user-images.githubusercontent.com/40645885/110919855-91279c00-82d1-11eb-906d-7f23c8976a93.png)
+View a Profile
+![image](https://user-images.githubusercontent.com/40645885/110919914-9dabf480-82d1-11eb-9b31-bf66397afbc0.png)
 
 <!-- CONTACT -->
 
 ## Contact
+Contributors:
+Benjamin Feng- benjamin.bfeng@gmail.com
+Arnav Garg -  arnavga@gmail.com
+Isaac Li - isaac.li@ucla.edu
+Joshua Si - jjsi@g.ucla.edu
+Artavard Torosyan - Iamferme@gmail.com
 
-Your Name - email@example.com
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-<!-- ACKNOWLEDGEMENTS -->
-
-## Acknowledgements
+Project Link: [https://github.com/benjamin-bfeng/BruinChat](https://github.com/benjamin-bfeng/BruinChat)
