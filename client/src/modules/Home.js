@@ -15,7 +15,7 @@ const Home=()=> {
           <a href="https://github.com/benjamin-bfeng/BruinChat" style={{color: "white"}}>A CS 97 Project</a>
           <p>BruinChat is a messaging app for UCLA classes using React.js, Express.js, and MongoDB</p>
         </Typography>
-        <div style={{display: 'flex', align: 'center', margin: '10%'}}>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
           <Button
             variant="contained"
             color="primary"
@@ -23,8 +23,8 @@ const Home=()=> {
               backgroundColor: '#daa522',
               width: '40%',
               height: '10%',
-              borderRadius: 20,
-              marginRight: '10%',
+              margin: '10%',
+              borderRadius: 20
             }}
             onClick={()=>{history.push(`/signup`)}}
           ><h2>Create an Account</h2></Button>
@@ -35,6 +35,7 @@ const Home=()=> {
               backgroundColor: '#daa522',
               width: '40%',
               height: '10%',
+              margin: '10%',
               borderRadius: 20
             }}
             onClick={()=>{history.push(`/login`)}}
