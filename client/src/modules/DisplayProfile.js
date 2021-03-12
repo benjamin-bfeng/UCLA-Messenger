@@ -151,6 +151,10 @@ const DisplayProfile = ({username,currentUser,overRideStyle}) => {
             color="primary"
             className={classes.button}
             onClick={()=>setModal(true)}
+            style={{
+                backgroundColor: '#FDB827',
+                color: "black"
+            }}
         >
             See Your Profile
         </Button> :

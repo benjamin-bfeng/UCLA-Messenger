@@ -12,6 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import LikeButton from './LikeButton';
 import SearchModal from './SearchModal';
 import DisplayProfile from "./DisplayProfile";
+import logo from "./assets/logo.png"
 
 import {CTX} from './Store';
 import '../index.css';
@@ -29,13 +30,13 @@ const useStyles = makeStyles(theme => ({
   },
   topicsWindow: {
     width: '30%',
-    height: '300px',
+    height: '500px',
     borderRight: '1px solid grey',
     overflowY: 'auto',
   },
   chatWindow: {
     width: '70%',
-    height: '300px',
+    height: '500px',
     padding: '20px',
     overflowY: 'auto',
   },
@@ -84,9 +85,12 @@ const ChatInnards = () => {
       >Logout</Button>
     </div>
       <Paper className={classes.root} elevation={1}>
-        <Typography variant={'h4'} component={'h4'}>
-          Bruin Chat
-        </Typography>
+        <img src={logo} alt={"logo"}
+            style={{
+              width: "35%",
+              height: "35%"
+            }}
+        />
         <Typography variant={'h5'} component={'h5'}>
           {activeTopic}
         </Typography>
@@ -141,6 +145,10 @@ const ChatInnards = () => {
             onChange={e => changeTextValue(e.target.value)}
           />
           <Button
+              style={{
+                backgroundColor: '#3287BE',
+
+              }}
             variant="contained"
             color="primary"
             onClick={() => {

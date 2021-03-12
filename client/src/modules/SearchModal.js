@@ -50,6 +50,10 @@ const SearchModal = ({handleChange}) => {
                 color="primary"
                 className={classes.button}
                 onClick={()=>setModal(true)}
+                style={{
+                    backgroundColor: '#3287BE',
+                    color: "white"
+                }}
             >
                 Add Class
             </Button>
