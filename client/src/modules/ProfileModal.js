@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
         '& .MuiTextField-root': {
             margin: theme.spacing(1),
             width: '25ch',
+
         },
     },
     divs:{
@@ -23,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
     input: {
         display: 'none',
     },
+    button:{
+    
+    }
 }));
 
 const ProfileModal = ({profile, handleChange}) => {
@@ -70,7 +74,9 @@ const ProfileModal = ({profile, handleChange}) => {
                     }
                 }}
             >
-                <div><button onClick={()=>setModal(false)}>X</button></div>
+                <div style={{position: 'fixed', left: '70%'}}>
+                    <button onClick={()=>setModal(false)}>X</button>
+                </div>
                 <div className={classes.divs}>
                     <TextField
                     id="nameField"
@@ -121,6 +127,7 @@ const ProfileModal = ({profile, handleChange}) => {
                     onChange={fileSelectedHandler}
                     accept="image/png, image/jpeg"
                 />
+                {/* {newFile? <img src={newFile} alt={'profileImage'} />:<></>} */}
                 <label htmlFor="contained-button-file">
                     <Button variant="contained" outlined color="default" component="span" >
                         Upload

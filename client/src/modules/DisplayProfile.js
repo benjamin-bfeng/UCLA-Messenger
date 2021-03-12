@@ -185,40 +185,43 @@ const DisplayProfile = ({username,currentUser,overRideStyle}) => {
                 width: "40%",
                 height: "70%",
                 left: '30%',
+                display: 'flex',
+                justifyContent: 'center',
             }
         }}
     >
-            <div><button onClick={()=>setModal(false)}>X</button></div>
+        <div style={{position: 'fixed', left: '70%'}}>
+            <button onClick={()=>setModal(false)}>X</button>
+        </div>
         <div className="profile">
             {loading ? (
                 'loading..'
             ) : (
-                <>
+                <div 
+                style={{textAlign: 'center'}}>
                     <div>
-                        <div>
-                            <div>
-                                <Typography>
-                                    {name}
-                                </Typography>
-
-                            </div>
-                            <img src={imageUrl} alt={'defProf'} />
-                        </div>
-                        <div>
-
-                                    <Typography variant="h5" component="h2">
-                                        {role}
-                                    </Typography>
-                                    <Typography
-                                        color="textSecondary"
-                                        gutterBottom
-                                    >
-                                        {desc}
-                                    </Typography>
-                            {(currentUser === username) ? <ProfileModal profile={profile} handleChange={handleChange}/>: <></>}
-                        </div>
+                        <Typography variant="h5">
+                            {name}
+                        </Typography>
+                        <img src={imageUrl} alt={'defProf'} />
                     </div>
-                </>
+                    <div>
+                        <Typography  variant="h5" component="h2">
+                            {role}
+                        </Typography>
+                        <Typography
+                            
+                            style={{textAlign: 'left'}}
+                            color="textSecondary"
+                            gutterBottom
+                        >
+                            {desc}
+                        </Typography>
+                    </div>
+                    {(currentUser === username) ? <ProfileModal profile={profile}
+                    style={{textAlign: 'center'}}
+                    handleChange={handleChange}/>: <></>}
+                </div>
             )}
         </div>
     </Modal></>);
