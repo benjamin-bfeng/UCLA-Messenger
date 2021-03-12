@@ -28,7 +28,7 @@ const SignUp = ({authenticate}) => {
       userService.setToken(user.token);
       setSignedUp(true);
     } catch (err) {
-      console.log('unable to signup');
+      alert('Error: either username is taken or you misspelled your email, try again!')
     }
   };
 

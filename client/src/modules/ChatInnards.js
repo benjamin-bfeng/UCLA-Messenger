@@ -60,7 +60,8 @@ const ChatInnards = () => {
 
   // CTX store
   const { allChats, sendChatAction, addChatAction, user, loaded } = React.useContext(CTX);
-  let topics = Object.keys(allChats);
+  console.log(allChats);
+  const topics = Object.keys(allChats);
 
   // local state
   const [activeTopic, changeActiveTopic] = React.useState(topics[0]);

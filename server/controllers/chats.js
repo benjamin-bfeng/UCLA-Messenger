@@ -73,23 +73,23 @@ chatRouter.delete('/chat/:id', async (request, response) => {
 
 // add like
 chatRouter.put('/chat/like/:id', async (request, resposne) => {
-    const chat = await Chat.findById(request.params.id);
+    const chat = await Message.findById(request.params.id);
     likeArr = chat.likes;
     if (likeArr.includes(request.body.user)) {
         likeArr.push(request.body.user);
     }
-    await Chat.findByIdAndUpdate(request.params.id, { likes: likeArr });
+    await Message.findByIdAndUpdate(request.params.id, { likes: likeArr });
     response.sendStatus(200);
 })
 
 //remove like
 chatRouter.put('/chat/like/:id', async (request, resposne) => {
-    const chat = await Chat.findById(request.params.id);
+    const chat = await Message.findById(request.params.id);
     likeArr = chat.likes;
     if (likeArr.includes(request.body.user)) {
         likeArr.remove(request.body.user);
     }
-    await Chat.findByIdAndUpdate(request.params.id, { likes: likeArr });
+    await Message.findByIdAndUpdate(request.params.id, { likes: likeArr });
     response.sendStatus(200);
 })
 
