@@ -95,6 +95,6 @@ Benjamin Feng- benjamin.bfeng@gmail.com
 Arnav Garg -  arnavga@gmail.com
 Isaac Li - isaac.li@ucla.edu
 Joshua Si - jjsi@g.ucla.edu
-Artavard Torosyan - Iamferme@gmail.com
+Artavazd Torosyan - Iamferme@gmail.com
 
 Project Link: [https://github.com/benjamin-bfeng/BruinChat](https://github.com/benjamin-bfeng/BruinChat)
