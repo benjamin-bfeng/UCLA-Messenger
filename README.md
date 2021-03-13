@@ -1,4 +1,5 @@
 
+
 # BruinChat
 
 <!-- TABLE OF CONTENTS -->
@@ -63,7 +64,10 @@ Installing Dependencies
 cd server
 npm install
 ```
-
+To link your mongoDB database, create the .env file inside the server folder and initialize your environment variable as such:
+```
+MONGODB_URI=[INSERT YOUR MONGODB CONNECTION STRING]
+```
 Run with
 ```sh
 npm run run_server
